@@ -2,14 +2,14 @@
 #define MENU_H
 
 #include "library.h"
-void tampilkanMenuUtama() {
+void menu() {
     cout << "1. Login" << endl;
     cout << "2. Register" << endl;
     cout << "0. Exit Program" << endl;
     cout << "Masukkan Pilihan: ";
 }
 
-void tampilkanMenuAdmin() {
+void menuAdmin() {
     cout << "1. Read Produk" << endl;
     cout << "2. Create Produk" << endl;
     cout << "3. Update Produk" << endl;
@@ -20,7 +20,7 @@ void tampilkanMenuAdmin() {
     cout << "Masukkan Pilihan: ";
 }
 
-void tampilkanMenuUser() {
+void menuUser() {
     cout << "1. Read Data Saya" << endl;
     cout << "2. Read Produk dan Beli" << endl;
     cout << "3. Search Produk" << endl;
