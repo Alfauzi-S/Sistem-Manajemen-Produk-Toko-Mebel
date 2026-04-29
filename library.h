@@ -2,6 +2,10 @@
 #define LIBRARY_H
 
 #include <iostream>
+#include <string>
+#include <vector>
+#include <limits>
+#include <stdexcept>
 using namespace std;
 
 #endif
