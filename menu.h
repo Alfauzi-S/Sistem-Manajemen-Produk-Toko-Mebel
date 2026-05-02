@@ -6,7 +6,6 @@ void menu() {
     cout << "1. Login" << endl;
     cout << "2. Register" << endl;
     cout << "0. Exit Program" << endl;
-    cout << "Masukkan Pilihan: ";
 }
 
 void menuAdmin() {
@@ -17,16 +16,16 @@ void menuAdmin() {
     cout << "5. Sort Produk" << endl;
     cout << "6. Search Produk" << endl;
     cout << "0. Logout" << endl;
-    cout << "Masukkan Pilihan: ";
 }
 
 void menuUser() {
     cout << "1. Read Data Saya" << endl;
-    cout << "2. Read Produk dan Beli" << endl;
-    cout << "3. Search Produk" << endl;
-    cout << "4. Top Up" << endl;
+    cout << "2. Buy" << endl;
+    cout << "3. Keranjang" << endl;
+    cout << "4. Sort Produk" << endl;
+    cout << "5. Search Produk" << endl;
+    cout << "6. Top Up" << endl;
     cout << "0. Logout" << endl;
-    cout << "Masukkan Pilihan: ";
 }
 
 #endif
