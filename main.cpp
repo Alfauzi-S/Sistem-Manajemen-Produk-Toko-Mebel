@@ -67,13 +67,12 @@ int main() {
     admin[0].password = "123";
     try
     {        
-        string pilihan;
         string currentUser;
         while (true) {
             system("cls");
             menu();
-            getline(cin, pilihan);
-            if (pilihan == "1") {
+            int pilihan = getInt("Masukan Pilihan: ");
+            if (pilihan == 1) {
                 system("cls");
                 bool isAdmin = false;
                 bool loginSucces = login(isAdmin, currentUser);
@@ -83,32 +82,32 @@ int main() {
                         while (true) {
                             system("cls");
                             menuAdmin();
-                            getline(cin, pilihan);
-                            if (pilihan == "1") {
+                            int pilihan = getInt("Masukan Pilihan: ");
+                            if (pilihan == 1) {
                                 system("cls");
                                 read();
                                 system("pause");
-                            } else if (pilihan == "2") {
+                            } else if (pilihan == 2) {
                                 system("cls");
                                 create();
                                 system("pause");
-                            } else if (pilihan == "3") {
+                            } else if (pilihan == 3) {
                                 system("cls");
                                 update();
                                 system("pause");
-                            } else if (pilihan == "4") {
+                            } else if (pilihan == 4) {
                                 system("cls");
                                 del();
                                 system("pause");
-                            } else if (pilihan == "5") {
+                            } else if (pilihan == 5) {
                                 system("cls");
-                                sort();
+                                menuSort();
                                 system("pause");
-                            } else if (pilihan == "6") {
+                            } else if (pilihan == 6) {
                                 system("cls");
-                                search();
+                                menuSearch();
                                 system("pause");
-                            } else if (pilihan == "0") {
+                            } else if (pilihan == 0) {
                                 break;
                             } else {
                                 cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
@@ -119,28 +118,32 @@ int main() {
                         while (true) {
                             system("cls");
                             menuUser();
-                            getline(cin, pilihan);
-                            if (pilihan == "1") {
+                            int pilihan = getInt("Masukan Pilihan: ");
+                            if (pilihan == 1) {
                                 system("cls");
                                 readuser();
                                 system("pause");
-                            } else if (pilihan == "2") {
-                                system("cls");
-                                read();
-                                system("pause");
-                            } else if (pilihan == "3") {
-                                system("cls");
-                                search();
-                                system("pause");
-                            } else if (pilihan == "4") {
+                            } else if (pilihan == 2) {
                                 system("cls");
                                 buy();
                                 system("pause");
-                            } else if (pilihan == "4") {
+                            } else if (pilihan == 3) {
+                                system("cls");
+                                keranjang();
+                                system("pause");
+                            } else if (pilihan == 4) {
+                                system("cls");
+                                menuSort();
+                                system("pause");
+                            } else if (pilihan == 5) {
+                                system("cls");
+                                menuSearch();
+                                system("pause");
+                            } else if (pilihan == 6) {
                                 system("cls");
                                 topup();
                                 system("pause");
-                            } else if (pilihan == "0") {
+                            } else if (pilihan == 0) {
                                 break;
                             } else {
                                 cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
@@ -152,11 +155,11 @@ int main() {
                     cout << "Login gagal, program berhenti." << endl;
                     return 0;
                 }
-            } else if (pilihan == "2") {
+            } else if (pilihan == 2) {
                 system("cls");
                 regis();
                 system("pause");
-            } else if (pilihan == "0") {
+            } else if (pilihan == 0) {
                 break;
             } else {
                 cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
