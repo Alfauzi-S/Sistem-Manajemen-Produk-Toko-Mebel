@@ -43,7 +43,76 @@ bool login(bool &isAdmin, string &currentUser) {
 }
 
 void regis(){
+    if (userIndex >= maxuser){
+        cout << "kapasitas memori penuh" << endl;
+        return;
+    }
+    string tempNama;
+    while (true) {
+        cout << "Masukkan Nama : ";
+        getline(cin, tempNama);
 
+        if (!isValidName(tempNama)) {
+            cout << "Nama hanya boleh berisi huruf dan spasi" << endl;
+            continue; 
+        }
+
+        bool namaDuplikat = false;
+        for (int i = 0; i < userIndex; i++) {
+            if (user[i].nama == tempNama) {
+                namaDuplikat = true;
+                break; 
+            }
+        }
+
+        if (namaDuplikat) {
+            cout << "(Nama sudah terdaftar. Gunakan nama lain)" << endl;
+            continue;
+        }
+        break; 
+    }
+    user[userIndex].nama = tempNama;
+
+    cout << "Masukkan Password : ";
+    getline(cin, user[userIndex].password);
+
+    while (true){
+        cout << "Masukkan Email : ";
+        getline(cin, user[userIndex].email);
+        if (!isValidEmail(user[userIndex].email)){
+            cout << "(Email harus menggunakan '@' dan '.')" << endl;
+        } else {
+            break;
+        }
+    }
+
+    cout << "===Masukkan alamat===" << endl;
+    cout << "Masukkan Jalan : ";
+    getline(cin, user[userIndex].alamat.jalan);
+
+    while (true) {
+        cout << "Masukkan Kota : ";
+        getline(cin, user[userIndex].alamat.kota);
+        if (!isValidName(user[userIndex].alamat.kota)) {
+            cout << "(Kota hanya boleh huruf dan spasi)" << endl;
+        } else {
+            break;
+        }
+    }
+
+    while (true) {
+        cout << "Masukkan provinsi : ";
+        getline(cin, user[userIndex].alamat.provinsi);
+        if (!isValidName(user[userIndex].alamat.provinsi)){
+            cout << "(provinsi hanya huruf dan spasi)" << endl;
+        } else {
+            break;
+        }
+    }
+
+    user[userIndex].saldo = 0;
+    cout << "===Registrasi berhasil===" << endl;
+    userIndex++;
 }
 
 #endif
