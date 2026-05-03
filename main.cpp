@@ -1,12 +1,12 @@
 #include "library.h"
 #include "struct.h"
+#include "error_handling.h" 
 #include "menu.h"
-#include "auth.h"
+#include "auth.h"           
 #include "crud.h"
 #include "sort.h"
 #include "search.h"
 #include "user.h"
-#include "error_handling.h"
 #include "tools.h"
 
 int main() {
