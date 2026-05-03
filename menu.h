@@ -24,7 +24,8 @@ void menuUser() {
     cout << "1. Read Data Saya" << endl;
     cout << "2. Read Produk dan Beli" << endl;
     cout << "3. Search Produk" << endl;
-    cout << "4. Top Up" << endl;
+    cout << "4. Top Up Saldo" << endl;
+    cout << "5. Keranjang & Checkout" << endl;
     cout << "0. Logout" << endl;
     cout << "Masukkan Pilihan: ";
 }
