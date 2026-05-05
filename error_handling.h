@@ -56,26 +56,4 @@ string yesOrNo(const string& prompt) {
     }
 }
 
-
-bool isValidName(string name) {
-    for (char c : name) {
-        if (!isalpha(c) && c != ' '){
-            return false;
-        }
-    }
-    return true;
-}
-
-bool isValidEmail(string email) {
-    size_t atPos = email.find('@');
-    size_t dotPos = email.find('.');
-    if (atPos == string::npos || dotPos == string::npos){
-        return false;
-    }
-    if (dotPos < atPos){
-        return false;
-    }
-    return true;
-}
-
 #endif
