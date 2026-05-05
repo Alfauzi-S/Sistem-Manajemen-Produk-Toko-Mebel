@@ -2,25 +2,9 @@
 #define USER_H
 
 #include "struct.h"
-#include <iostream>
-#include <iomanip>
+#include "library.h"
 
-using namespace std;
-
-// Struct untuk menampung sementara barang yang akan dibeli
-struct Keranjang {
-    int idProduk;
-    string namaProduk;
-    long long harga;
-    int qty;
-};
-
-// Variabel Global khusus User
-Keranjang keranjangUser[100];
-int jmlKeranjang = 0;
-
-// 1. TUGAS BINTANG: Read Data Saya
-inline void readDataUser(string name) {
+void readUser(string name) {
     for (int i = 0; i < userIndex; i++) {
         if (user[i].nama == name) {
             cout << "========================================" << endl;
@@ -36,7 +20,6 @@ inline void readDataUser(string name) {
     }
 }
 
-// 5. TUGAS BINTANG: Topup
 inline void topup(string name) {
     long long nominal;
     cout << " Masukkan nominal Top Up: Rp ";
@@ -56,8 +39,7 @@ inline void topup(string name) {
     }
 }
 
-// 2. TUGAS BINTANG: Buy (Memasukkan ke Keranjang)
-inline void buy() {
+void buy() {
     int id, qty;
     bool found = false;
 
@@ -80,8 +62,7 @@ inline void buy() {
     if (!found) cout << " [ERROR] Produk tidak ditemukan!" << endl;
 }
 
-// 3. TUGAS BINTANG: Keranjang & Checkout
-inline void checkout(string name) {
+void checkout(string name) {
     if (jmlKeranjang == 0) {
         cout << " [INFO] Keranjang kosong!" << endl;
         return;
@@ -110,7 +91,6 @@ inline void checkout(string name) {
         cout << " Bayar sekarang? (y/n): "; cin >> y;
         if (y == 'y' || y == 'Y') {
             user[idxU].saldo -= total;
-            // Kurangi stok asli di mabel[]
             for (int i = 0; i < jmlKeranjang; i++) {
                 for (int j = 0; j < mabelIndex; j++) {
                     if (mabel[j].idProduk == keranjangUser[i].idProduk) {
@@ -124,6 +104,10 @@ inline void checkout(string name) {
     } else {
         cout << " [ERROR] Saldo tidak cukup! Silakan Top Up." << endl;
     }
+}
+
+void keranjang() {
+    
 }
 
 #endif

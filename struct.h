@@ -37,16 +37,26 @@ struct produk {
     material material;
 };
 
+struct Keranjang {
+    int idProduk;
+    string namaProduk;
+    long long harga;
+    int qty;
+};
+
 #define maxadmin 1
 #define maxuser 100
 #define maxproduk 100
+#define maxkeranjang 100
 
 int adminIndex = 1;
 int userIndex = 1;
 int mabelIndex = 5;
+int jmlKeranjang = 0;
 
 dataAdmin admin[maxadmin];
 pengguna user[maxuser];
 produk mabel[maxproduk];
+Keranjang keranjangUser[maxkeranjang];
 
 #endif

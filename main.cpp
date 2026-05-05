@@ -7,7 +7,6 @@
 #include "sort.h"
 #include "search.h"
 #include "user.h"
-#include "tools.h"
 
 int main() {
     mabel[0].idProduk = 101;
@@ -65,109 +64,108 @@ int main() {
 
     admin[0].nama = "admin";
     admin[0].password = "123";
-    try
-    {        
-        string currentUser;
-        while (true) {
+
+    string pilihan;     
+    string currentUser;
+    while (true) {
+        system("cls");
+        menu();
+        getline(cin, pilihan);
+        if (pilihan == "1") {
             system("cls");
-            menu();
-            int pilihan = getInt("Masukan Pilihan: ");
-            if (pilihan == 1) {
-                system("cls");
-                bool isAdmin = false;
-                bool loginSucces = login(isAdmin, currentUser);
+            bool isAdmin = false;
+            bool loginSucces = login(isAdmin, currentUser);
+            if (loginSucces) {
                 system("pause");
-                if (loginSucces) {
-                    if (isAdmin && loginSucces) {
-                        while (true) {
+                if (isAdmin && loginSucces) {
+                    while (true) {
+                        system("cls");
+                        menuAdmin();
+                        getline(cin, pilihan);
+                        if (pilihan == "1") {
                             system("cls");
-                            menuAdmin();
-                            int pilihan = getInt("Masukan Pilihan: ");
-                            if (pilihan == 1) {
-                                system("cls");
-                                read();
-                                system("pause");
-                            } else if (pilihan == 2) {
-                                system("cls");
-                                create();
-                                system("pause");
-                            } else if (pilihan == 3) {
-                                system("cls");
-                                update();
-                                system("pause");
-                            } else if (pilihan == 4) {
-                                system("cls");
-                                del();
-                                system("pause");
-                            } else if (pilihan == 5) {
-                                system("cls");
-                                menuSort();
-                                system("pause");
-                            } else if (pilihan == 6) {
-                                system("cls");
-                                menuSearch();
-                                system("pause");
-                            } else if (pilihan == 0) {
-                                break;
-                            } else {
-                                cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
-                                system("pause");
-                            }
-                        }
-                    } else {
-                        while (true) {
+                            read();
+                            system("pause");
+                        } else if (pilihan == "2") {
                             system("cls");
-                            menuUser();
-                            int pilihan = getInt("Masukan Pilihan: ");
-                            if (pilihan == 1) {
-                                system("cls");
-                                readuser();
-                                system("pause");
-                            } else if (pilihan == 2) {
-                                system("cls");
-                                buy();
-                                system("pause");
-                            } else if (pilihan == 3) {
-                                system("cls");
-                                keranjang();
-                                system("pause");
-                            } else if (pilihan == 4) {
-                                system("cls");
-                                menuSort();
-                                system("pause");
-                            } else if (pilihan == 5) {
-                                system("cls");
-                                menuSearch();
-                                system("pause");
-                            } else if (pilihan == 6) {
-                                system("cls");
-                                topup();
-                                system("pause");
-                            } else if (pilihan == 0) {
-                                break;
-                            } else {
-                                cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
-                                system("pause");
-                            }
+                            create();
+                            system("pause");
+                        } else if (pilihan == "3") {
+                            system("cls");
+                            update();
+                            system("pause");
+                        } else if (pilihan == "4") {
+                            system("cls");
+                            del();
+                            system("pause");
+                        } else if (pilihan == "5") {
+                            system("cls");
+                            menuSort();
+                            system("pause");
+                        } else if (pilihan == "6") {
+                            system("cls");
+                            menuSearch();
+                            system("pause");
+                        } else if (pilihan == "0") {
+                            break;
+                        } else {
+                            cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
+                            system("pause");
                         }
                     }
                 } else {
-                    cout << "Login gagal, program berhenti." << endl;
-                    return 0;
+                    while (true) {
+                        system("cls");
+                        menuUser();
+                        getline(cin, pilihan);
+                        if (pilihan == "1") {
+                            system("cls");
+                            readUser(currentUser);
+                            system("pause");
+                        } else if (pilihan == "2") {
+                            system("cls");
+                            buy();
+                            system("pause");
+                        } else if (pilihan == "3") {
+                            system("cls");
+                            checkout(currentUser);
+                            system("pause");
+                        } else if (pilihan == "4") {
+                            system("cls");
+                            menuSort();
+                            system("pause");
+                        } else if (pilihan == "5") {
+                            system("cls");
+                            menuSearch();
+                            system("pause");
+                        } else if (pilihan == "6") {
+                            system("cls");
+                            topup(currentUser);
+                            system("pause");
+                        } else if (pilihan == "0") {
+                            break;
+                        } else {
+                            cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
+                            system("pause");
+                        }
+                    }
                 }
-            } else if (pilihan == 2) {
-                system("cls");
-                regis();
-                system("pause");
-            } else if (pilihan == 0) {
-                break;
             } else {
-                cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
-                system("pause");
+                cout << "\nLogin Gagal! Anda telah mencapai batas percobaan maksimal." << endl;
+                cout << "Program akan keluar..." << endl;
+                return 0;
             }
+        } else if (pilihan == "2") {
+            system("cls");
+            regis();
+            system("pause");
+        } else if (pilihan == "0") {
+            cout << "\nKeluar dari program..." << endl;
+            break;
+        } else {
+            cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
+            system("pause");
         }
-    } catch (const std::exception& e) {
-        cerr << "\nError Fatal: " << e.what() << endl;
-        return 1;
     }
+    return 0;
 }
