@@ -3,6 +3,9 @@
 
 #include "library.h"
 void menu() {
+    cout << "=================================================" << endl;
+    cout << "        Sistem Manajemen Produk Toko Mebel       " << endl;
+    cout << "=================================================" << endl;
     cout << "1. Login" << endl;
     cout << "2. Register" << endl;
     cout << "0. Exit Program" << endl;

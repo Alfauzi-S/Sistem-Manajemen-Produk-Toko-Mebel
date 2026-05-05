@@ -109,7 +109,8 @@ int main() {
                         } else if (pilihan == "0") {
                             break;
                         } else {
-                            cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
+                            cout << "=================================================" << endl;
+                            cout << "[Pilihan tidak valid. Silakan coba lagi.]" << endl;
                             system("pause");
                         }
                     }
@@ -145,13 +146,15 @@ int main() {
                         } else if (pilihan == "0") {
                             break;
                         } else {
-                            cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
+                            cout << "=================================================" << endl;
+                            cout << "[Pilihan tidak valid. Silakan coba lagi.]" << endl;
                             system("pause");
                         }
                     }
                 }
             } else {
-                cout << "\nLogin Gagal! Anda telah mencapai batas percobaan maksimal." << endl;
+                cout << "===============================================" << endl;
+                cout << "[Login Gagal! Anda telah mencapai batas percobaan maksimal.]" << endl;
                 cout << "Program akan keluar..." << endl;
                 return 0;
             }
@@ -160,10 +163,12 @@ int main() {
             regis();
             system("pause");
         } else if (pilihan == "0") {
-            cout << "\nKeluar dari program..." << endl;
+            cout << "=================================================" << endl;
+            cout << "Keluar dari program..." << endl;
             break;
         } else {
-            cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
+            cout << "=================================================" << endl;
+            cout << "[Pilihan tidak valid. Silakan coba lagi.]" << endl;
             system("pause");
         }
     }
