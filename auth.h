@@ -34,8 +34,6 @@ bool login(bool &isAdmin, string &currentUser) {
         if (kesempatan > 0) {
             cout << "\nLogin Gagal! Sisa percobaan: " << kesempatan << endl;
         } else {
-            cout << "\nLogin Gagal! Anda telah mencapai batas percobaan maksimal." << endl;
-            cout << "Program akan keluar..." << endl;
             return false;
         }
     }
@@ -53,7 +51,7 @@ void regis(){
         getline(cin, tempNama);
 
         if (!isValidName(tempNama)) {
-            cout << "Nama hanya boleh berisi huruf dan spasi" << endl;
+            cout << "[Nama hanya boleh berisi huruf dan spasi]" << endl;
             continue; 
         }
 
@@ -66,7 +64,7 @@ void regis(){
         }
 
         if (namaDuplikat) {
-            cout << "(Nama sudah terdaftar. Gunakan nama lain)" << endl;
+            cout << "[Nama sudah terdaftar. Gunakan nama lain]" << endl;
             continue;
         }
         break; 
@@ -80,13 +78,12 @@ void regis(){
         cout << "Masukkan Email : ";
         getline(cin, user[userIndex].email);
         if (!isValidEmail(user[userIndex].email)){
-            cout << "(Email harus menggunakan '@' dan '.')" << endl;
+            cout << "[Email harus menggunakan '@' dan '.']" << endl;
         } else {
             break;
         }
     }
 
-    cout << "===Masukkan alamat===" << endl;
     cout << "Masukkan Jalan : ";
     getline(cin, user[userIndex].alamat.jalan);
 
@@ -94,7 +91,7 @@ void regis(){
         cout << "Masukkan Kota : ";
         getline(cin, user[userIndex].alamat.kota);
         if (!isValidName(user[userIndex].alamat.kota)) {
-            cout << "(Kota hanya boleh huruf dan spasi)" << endl;
+            cout << "[Kota hanya boleh huruf dan spasi)" << endl;
         } else {
             break;
         }
@@ -104,7 +101,7 @@ void regis(){
         cout << "Masukkan provinsi : ";
         getline(cin, user[userIndex].alamat.provinsi);
         if (!isValidName(user[userIndex].alamat.provinsi)){
-            cout << "(provinsi hanya huruf dan spasi)" << endl;
+            cout << "[provinsi hanya huruf dan spasi]" << endl;
         } else {
             break;
         }
