@@ -34,14 +34,11 @@ void selectionSort(produk arr[], int n) {
     }
 }
 
-void menuSort() {
+void Sort() {
     string pilihan;
     while (true) {
         system("cls");
-        cout << "1. Urutkan ID Produk" << endl;
-        cout << "2. Urutkan Harga" << endl;
-        cout << "0. Kembali ke Menu Sebelumnya" << endl;
-        cout << "Masukkan Pilihan: ";
+        menuSort();
         getline(cin, pilihan);
 
         if (pilihan == "1") {
