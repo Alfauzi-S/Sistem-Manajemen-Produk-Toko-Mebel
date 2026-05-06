@@ -33,14 +33,11 @@ int linearSearch(produk* arr, int n, const string& target) {
     return -1;
 }
 
-void menuSearch() {
+void Search() {
     string pilihan;
     while (true) {
         system("cls");
-        cout << "1. Cari Produk Berdasarkan ID " << endl;
-        cout << "2. Cari Produk Berdasarkan Nama " << endl;
-        cout << "0. Kembali ke Menu Sebelumnya" << endl;
-        cout << "Masukkan Pilihan: ";
+        menuSearch();
         getline(cin, pilihan);
 
         if (pilihan == "1") {

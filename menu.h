@@ -13,6 +13,9 @@ void menu() {
 }
 
 void menuAdmin() {
+    cout << "===============================================" << endl;
+    cout << "                   Menu Admin                  " << endl;
+    cout << "===============================================" << endl;
     cout << "1. Read Produk" << endl;
     cout << "2. Create Produk" << endl;
     cout << "3. Update Produk" << endl;
@@ -24,6 +27,9 @@ void menuAdmin() {
 }
 
 void menuUser() {
+    cout << "==============================================" << endl;
+    cout << "                   Menu User                  " << endl;
+    cout << "==============================================" << endl;
     cout << "1. Read Data Saya" << endl;
     cout << "2. Buy" << endl;
     cout << "3. Keranjang" << endl;
@@ -44,6 +50,40 @@ void menuUpdate() {
     cout << "7. update Jenis Material" << endl;
     cout << "0. Exit" << endl;
     cout << "Masukan Pilihan: ";
+}
+
+void menuKeranjang() {
+    cout << "1. Checkout " << endl;
+    cout << "2. Update Item Keranjang " << endl;
+    cout << "3. Delete Item Keranjang " << endl;
+    cout << "0. Exit" << endl;
+    cout << "Masukkan Pilihan: ";
+}
+
+void menuSort() {
+    cout << "==============================================" << endl;
+    cout << "                   Menu Sort                  " << endl;
+    cout << "==============================================" << endl;
+    cout << "1. Urutkan ID Produk" << endl;
+    cout << "2. Urutkan Harga" << endl;
+    cout << "0. Exit" << endl;
+    cout << "Masukkan Pilihan: ";
+}
+
+void menuSearch() {
+    cout << "==============================================" << endl;
+    cout << "                  Menu Search                 " << endl;
+    cout << "==============================================" << endl;
+    cout << "1. Cari Produk Berdasarkan ID " << endl;
+    cout << "2. Cari Produk Berdasarkan Nama " << endl;
+    cout << "0. Exit" << endl;
+    cout << "Masukkan Pilihan: ";
+}
+
+void menuBuy() {
+    cout << "1. Ubah Jumlah" << endl;
+    cout << "0. Exit" << endl;
+    cout << "Masukkan Pilihan: ";
 }
 
 #endif

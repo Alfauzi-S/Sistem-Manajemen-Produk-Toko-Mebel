@@ -100,11 +100,11 @@ int main() {
                             system("pause");
                         } else if (pilihan == "5") {
                             system("cls");
-                            menuSort();
+                            Sort();
                             system("pause");
                         } else if (pilihan == "6") {
                             system("cls");
-                            menuSearch();
+                            Search();
                             system("pause");
                         } else if (pilihan == "0") {
                             break;
@@ -125,19 +125,19 @@ int main() {
                             system("pause");
                         } else if (pilihan == "2") {
                             system("cls");
-                            buy();
+                            buy(currentUser);
                             system("pause");
                         } else if (pilihan == "3") {
                             system("cls");
-                            checkout(currentUser);
+                            cart(currentUser);
                             system("pause");
                         } else if (pilihan == "4") {
                             system("cls");
-                            menuSort();
+                            Sort();
                             system("pause");
                         } else if (pilihan == "5") {
                             system("cls");
-                            menuSearch();
+                            Search();
                             system("pause");
                         } else if (pilihan == "6") {
                             system("cls");

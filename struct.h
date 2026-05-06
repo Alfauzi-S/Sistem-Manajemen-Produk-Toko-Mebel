@@ -13,7 +13,7 @@ struct pengguna {
     string nama;
     string password;
     string email;
-    long long saldo;
+    int saldo;
     alamat alamat;
 };
 
@@ -32,31 +32,40 @@ struct produk {
     int idProduk;
     string namaProduk;
     string jenisProduk;
-    long long stock;
-    long long harga;
+    int stock;
+    int harga;
     material material;
 };
 
-struct Keranjang {
+struct keranjang {
+    string nama;
     int idProduk;
     string namaProduk;
-    long long harga;
-    int qty;
+    int harga;
+    int jumlah;
+};
+
+struct transaksi {
+    int idTransaksi;
+    keranjang keranjang;
 };
 
 #define maxadmin 1
 #define maxuser 100
 #define maxproduk 100
+#define maxtransaksi 100
 #define maxkeranjang 100
 
 int adminIndex = 1;
 int userIndex = 1;
 int mabelIndex = 5;
-int jmlKeranjang = 0;
+int transaksiIndex = 0;
+int keranjangIndex = 0;
 
 dataAdmin admin[maxadmin];
 pengguna user[maxuser];
 produk mabel[maxproduk];
-Keranjang keranjangUser[maxkeranjang];
+transaksi transaksiUser[maxtransaksi];
+keranjang keranjangUser[maxkeranjang];
 
 #endif
