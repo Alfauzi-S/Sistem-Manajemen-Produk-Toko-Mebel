@@ -12,7 +12,7 @@ bool login(bool &isAdmin, string &currentUser) {
     int kesempatan = 3;
     string inNama, inPassword;
     while (kesempatan > 0) {
-        cout << left << setw(20) <<"Masukkan Nama" << ": ";
+        cout << left << setw(20) <<"Masukkan Username" << ": ";
         getline(cin, inNama);
         cout << left << setw(20) <<"Masukkan Password" << ": ";
         getline(cin, inPassword);
