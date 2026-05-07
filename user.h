@@ -25,6 +25,125 @@ void readUser(string name) {
         }
     }
 }
+
+void readUserandUpdate(string &currentUser) {
+    int indexKetemu = -1;
+    for (int i = 0; i < userIndex; i++) {
+        if (user[i].nama == currentUser) {
+            indexKetemu = i;
+            break;
+        }
+    }
+
+    if (indexKetemu == -1) {
+        cout << "========================================" << endl;
+        cout << "[User " << currentUser << " tidak ditemukan]" << endl;
+        return;
+    }
+    
+    string pilihanUtama;
+    while (true) {
+        system("cls");
+        readUser(currentUser);
+        cout << "1. Update Data User" << endl;
+        cout << "0. Exit" << endl;
+        cout << "Masukan Pilihan: ";
+        getline(cin, pilihanUtama);
+        
+        if (pilihanUtama == "1") {
+            string namaBaru = user[indexKetemu].nama;
+            string emailBaru = user[indexKetemu].email;
+            string jalanBaru = user[indexKetemu].alamat.jalan;
+            string kotaBaru = user[indexKetemu].alamat.kota;
+            string provinsiBaru = user[indexKetemu].alamat.provinsi;
+            
+            while (true) {
+                system("cls");
+                cout << "========================================" << endl;
+                cout << "              UPDATE PROFIL              " << endl;
+                cout << "========================================" << endl;
+                cout << " Nama      : " << namaBaru << endl;
+                cout << " Email     : " << emailBaru << endl;
+                cout << " Alamat    : " << jalanBaru << ", " << kotaBaru << ", " << provinsiBaru << endl;
+                cout << "========================================" << endl;
+                cout << "1. Ubah Nama" << endl;
+                cout << "2. Ubah Email" << endl;
+                cout << "3. Ubah Jalan" << endl;
+                cout << "4. Ubah Kota" << endl;
+                cout << "5. Ubah Provinsi" << endl;
+                cout << "0. Simpan & Keluar" << endl;
+                cout << "Masukan Pilihan: ";
+                
+                string pilihanUpdate;
+                getline(cin, pilihanUpdate);
+                
+                if (pilihanUpdate == "1") {
+                    string tempNama;
+                    while (true) {
+                        cout << "Masukkan Nama Baru: ";
+                        getline(cin, tempNama);
+        
+                        bool namaDuplikat = false;
+                        for (int i = 0; i < userIndex; i++) {
+                            if (user[i].nama == tempNama && i != indexKetemu) {
+                                namaDuplikat = true;
+                                break;
+                            }
+                        }
+        
+                        if (namaDuplikat) {
+                            cout << "[Nama sudah terdaftar. Gunakan nama lain]" << endl;
+                            continue;
+                        }
+                        break;
+                    }
+                    namaBaru = tempNama;
+                } 
+                else if (pilihanUpdate == "2") {
+                    cout << "Masukkan Email Baru: ";
+                    getline(cin, emailBaru);
+                } 
+                else if (pilihanUpdate == "3") {
+                    cout << "Masukkan Jalan Baru: ";
+                    getline(cin, jalanBaru);
+                } 
+                else if (pilihanUpdate == "4") {
+                    cout << "Masukkan Kota Baru: ";
+                    getline(cin, kotaBaru);
+                } 
+                else if (pilihanUpdate == "5") {
+                    cout << "Masukkan Provinsi Baru: ";
+                    getline(cin, provinsiBaru);
+                } 
+                else if (pilihanUpdate == "0") {
+                    string konfirmasi = yesOrNo("\nSimpan Perubahan (Y/N)? ");
+                    if (konfirmasi == "y" || konfirmasi == "Y") {
+                        user[indexKetemu].nama = namaBaru;
+                        user[indexKetemu].email = emailBaru;
+                        user[indexKetemu].alamat.jalan = jalanBaru;
+                        user[indexKetemu].alamat.kota = kotaBaru;
+                        user[indexKetemu].alamat.provinsi = provinsiBaru;
+                        currentUser = user[indexKetemu].nama;
+                        cout << "\n[Berhasil Update Data User]" << endl;
+                    } else {
+                        cout << "\n[Membatalkan Update Data User]" << endl;
+                    }
+                    break;
+                } 
+                else {
+                    cout << "[Pilihan tidak valid. Silakan coba lagi.]" << endl;
+                    system("pause");
+                }
+            }
+        } 
+        else if (pilihanUtama == "0") {
+            break;
+        } 
+        else {
+            cout << "[Pilihan tidak valid. Silakan coba lagi.]" << endl;
+        }
+    }
+}
 // Done
 void topup(string name) {
     int indexKetemu = -1;
@@ -89,7 +208,6 @@ void buy(string name) {
     if (indexKetemu == -1) {
         cout << "========================================================================================================================" << endl;
         cout << "[Produk dengan ID " << idCari  << " tidak ditemukan]" << endl;
-        system("pause");
         return;
     }
     int inJumlah = 0;

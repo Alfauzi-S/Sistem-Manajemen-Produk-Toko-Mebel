@@ -126,7 +126,7 @@ int main() {
                         getline(cin, pilihan);
                         if (pilihan == "1") {
                             system("cls");
-                            readUser(currentUser);
+                            readUserandUpdate(currentUser);
                             system("pause");
                         } else if (pilihan == "2") {
                             system("cls");
