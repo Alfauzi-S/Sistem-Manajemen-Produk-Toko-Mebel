@@ -44,7 +44,7 @@ void Sort() {
         if (pilihan == "1") {
             system("cls");
             if (mabelIndex == 0) {
-                cout << "\nTidak ada produk untuk diurutkan." << endl;
+                cout << "[Tidak ada produk untuk diurutkan.]" << endl;
             } else {
                 bubbleSort(mabel, mabelIndex);
                 read();
@@ -53,7 +53,7 @@ void Sort() {
         } else if(pilihan == "2") {
             system("cls");
             if (mabelIndex == 0) {
-                cout << "\nTidak ada produk untuk diurutkan." << endl;
+                cout << "[Tidak ada produk untuk diurutkan.]" << endl;
             } else {
                 selectionSort(mabel, mabelIndex);
                 read();
@@ -62,7 +62,7 @@ void Sort() {
         } else if (pilihan == "0") {
             break;
         } else {
-            cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
+            cout << "[Pilihan tidak valid. Silakan coba lagi.]" << endl;
             system("pause");
         }
     }

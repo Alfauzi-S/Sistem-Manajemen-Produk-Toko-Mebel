@@ -82,6 +82,11 @@ void update(){
     cout << "                                                      UPDATE PRODUK                                                     " << endl;
     cout << "========================================================================================================================" << endl;
 
+    if (mabelIndex == 0) {
+        cout << "[Data Produk Kosong]" << endl;
+        return;
+    };
+
     read();
 
     int idCari = getPositiveInt("Masukkan ID produk");
@@ -182,6 +187,11 @@ void del(){
     cout << "========================================================================================================================" << endl;
     cout << "                                                      DELETE PRODUK                                                     " << endl;
     cout << "========================================================================================================================" << endl;
+    
+    if (mabelIndex == 0) {
+        cout << "[Data Produk Kosong]" << endl;
+        return;
+    };
     read();
 
     int idCari = getPositiveInt("Masukkan ID Produk");

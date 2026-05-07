@@ -84,6 +84,11 @@ int main() {
                         getline(cin, pilihan);
                         if (pilihan == "1") {
                             system("cls");
+                            if (mabelIndex == 0) {
+                                cout << "[Data Produk Kosong]" << endl;
+                                system("pause");
+                                break;
+                            };
                             read();
                             system("pause");
                         } else if (pilihan == "2") {
