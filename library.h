@@ -3,11 +3,13 @@
 
 #include <iostream>
 #include <string>
-#include <cctype>  
+#include <cctype>
 #include <vector>
 #include <limits>
 #include <stdexcept>
 #include <iomanip>
+#include <algorithm>
+#include <sstream>
 using namespace std;
 
 #endif

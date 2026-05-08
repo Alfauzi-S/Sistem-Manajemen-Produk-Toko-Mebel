@@ -1,12 +1,13 @@
 #include "library.h"
 #include "struct.h"
-#include "error_handling.h" 
+#include "validation.h"
 #include "menu.h"
-#include "auth.h"           
+#include "auth.h"
 #include "crud.h"
 #include "sort.h"
 #include "search.h"
 #include "user.h"
+#include "material.h"
 
 int main() {
     mabel[0].idProduk = 101;
@@ -54,6 +55,22 @@ int main() {
     mabel[4].material.namaMaterial = "Kayu Jati";
     mabel[4].material.jenisMaterial = "Kayu Solid";
 
+    materialDb[0].idMaterial = "MAT001";
+    materialDb[0].namaMaterial = "Kayu Jati";
+    materialDb[0].jenisMaterial = "Kayu Solid";
+
+    materialDb[1].idMaterial = "MAT002";
+    materialDb[1].namaMaterial = "HPL Abu-Abu";
+    materialDb[1].jenisMaterial = "Pelapis";
+
+    materialDb[2].idMaterial = "MAT003";
+    materialDb[2].namaMaterial = "Kayu Meranti";
+    materialDb[2].jenisMaterial = "Kayu Solid";
+
+    materialDb[3].idMaterial = "MAT004";
+    materialDb[3].namaMaterial = "Plywood Biru";
+    materialDb[3].jenisMaterial = "Papan";
+
     user[0].nama = "user";
     user[0].password = "123";
     user[0].email = "user@gmail.com";
@@ -65,117 +82,136 @@ int main() {
     admin[0].nama = "admin";
     admin[0].password = "123";
 
-    string pilihan;     
+    string pilihan;
     string currentUser;
+    
     while (true) {
-        system("cls");
-        menu();
-        getline(cin, pilihan);
-        if (pilihan == "1") {
-            system("cls");
-            bool isAdmin = false;
-            bool loginSucces = login(isAdmin, currentUser);
-            if (loginSucces) {
-                system("pause");
-                if (isAdmin && loginSucces) {
-                    while (true) {
-                        system("cls");
-                        menuAdmin();
-                        getline(cin, pilihan);
-                        if (pilihan == "1") {
-                            system("cls");
-                            if (mabelIndex == 0) {
-                                cout << "[Data Produk Kosong]" << endl;
-                                system("pause");
+        try {
+            clearScreen();
+            menu();
+            getline(cin, pilihan);
+            
+            if (pilihan == "1") {
+                clearScreen();
+                bool isAdmin = false;
+                if (login(&isAdmin, &currentUser)) {
+                    pauseScreen();
+                    
+                    if (isAdmin) {
+                        while (true) {
+                            clearScreen();
+                            menuAdmin();
+                            getline(cin, pilihan);
+                            
+                            if (pilihan == "1") {
+                                clearScreen();
+                                if (mabelIndex == 0) {
+                                    showError("Data Produk Kosong!");
+                                } else {
+                                    read();
+                                }
+                                pauseScreen();
+                            }
+                            else if (pilihan == "2") {
+                                clearScreen();
+                                create();
+                                pauseScreen();
+                            }
+                            else if (pilihan == "3") {
+                                clearScreen();
+                                update();
+                                pauseScreen();
+                            }
+                            else if (pilihan == "4") {
+                                clearScreen();
+                                del();
+                                pauseScreen();
+                            }
+                            else if (pilihan == "5") {
+                                Sort();
+                            }
+                            else if (pilihan == "6") {
+                                Search();
+                            }
+                            else if (pilihan == "7") {
+                                menuMaterial();
+                            }
+                            else if (pilihan == "0") {
                                 break;
-                            };
-                            read();
-                            system("pause");
-                        } else if (pilihan == "2") {
-                            system("cls");
-                            create();
-                            system("pause");
-                        } else if (pilihan == "3") {
-                            system("cls");
-                            update();
-                            system("pause");
-                        } else if (pilihan == "4") {
-                            system("cls");
-                            del();
-                            system("pause");
-                        } else if (pilihan == "5") {
-                            system("cls");
-                            Sort();
-                            system("pause");
-                        } else if (pilihan == "6") {
-                            system("cls");
-                            Search();
-                            system("pause");
-                        } else if (pilihan == "0") {
-                            break;
-                        } else {
-                            cout << "=================================================" << endl;
-                            cout << "[Pilihan tidak valid. Silakan coba lagi.]" << endl;
-                            system("pause");
+                            }
+                            else {
+                                showError("Pilihan tidak valid!");
+                                pauseScreen();
+                            }
+                        }
+                    } else {
+                        while (true) {
+                            clearScreen();
+                            menuUser();
+                            getline(cin, pilihan);
+                            
+                            if (pilihan == "1") {
+                                clearScreen();
+                                readUserandUpdate(currentUser);
+                                pauseScreen();
+                            }
+                            else if (pilihan == "2") {
+                                clearScreen();
+                                buy(currentUser);
+                                pauseScreen();
+                            }
+                            else if (pilihan == "3") {
+                                clearScreen();
+                                cart(currentUser);
+                                pauseScreen();
+                            }
+                            else if (pilihan == "4") {
+                                Sort();
+                            }
+                            else if (pilihan == "5") {
+                                Search();
+                            }
+                            else if (pilihan == "6") {
+                                clearScreen();
+                                topup(currentUser);
+                                pauseScreen();
+                            }
+                            else if (pilihan == "0") {
+                                break;
+                            }
+                            else {
+                                showError("Pilihan tidak valid!");
+                                pauseScreen();
+                            }
                         }
                     }
                 } else {
-                    while (true) {
-                        system("cls");
-                        menuUser();
-                        getline(cin, pilihan);
-                        if (pilihan == "1") {
-                            system("cls");
-                            readUserandUpdate(currentUser);
-                            system("pause");
-                        } else if (pilihan == "2") {
-                            system("cls");
-                            buy(currentUser);
-                            system("pause");
-                        } else if (pilihan == "3") {
-                            system("cls");
-                            cart(currentUser);
-                            system("pause");
-                        } else if (pilihan == "4") {
-                            system("cls");
-                            Sort();
-                            system("pause");
-                        } else if (pilihan == "5") {
-                            system("cls");
-                            Search();
-                            system("pause");
-                        } else if (pilihan == "6") {
-                            system("cls");
-                            topup(currentUser);
-                            system("pause");
-                        } else if (pilihan == "0") {
-                            break;
-                        } else {
-                            cout << "=================================================" << endl;
-                            cout << "[Pilihan tidak valid. Silakan coba lagi.]" << endl;
-                            system("pause");
-                        }
-                    }
+                    printLine('-', 50);
+                    cout << "Program akan keluar..." << endl;
+                    return 0;
                 }
-            } else {
-                cout << "===============================================" << endl;
-                cout << "[Login Gagal! Anda telah mencapai batas percobaan maksimal.]" << endl;
-                cout << "Program akan keluar..." << endl;
-                return 0;
+            } 
+            else if (pilihan == "2") {
+                clearScreen();
+                regis();
+                pauseScreen();
+            } 
+            else if (pilihan == "0") {
+                printLine('-', 50);
+                cout << "Terima kasih telah menggunakan program ini!" << endl;
+                cout << "Keluar dari program..." << endl;
+                break;
+            } 
+            else {
+                showError("Pilihan tidak valid!");
+                pauseScreen();
             }
-        } else if (pilihan == "2") {
-            system("cls");
-            regis();
-            system("pause");
-        } else if (pilihan == "0") {
-            cout << "=================================================" << endl;
-            cout << "Keluar dari program..." << endl;
-            break;
-        } else {
-            cout << "=================================================" << endl;
-            cout << "[Pilihan tidak valid. Silakan coba lagi.]" << endl;
-            system("pause");
+        }
+        catch (const exception& e) {
+            cout<< "[FATAL ERROR] " << e.what() << endl;
+            pauseScreen();
         }
     }
+    
     return 0;
 }

@@ -3,96 +3,84 @@
 
 #include "library.h"
 #include "struct.h"
-
-bool login(bool &isAdmin, string &currentUser) {
-    cout << "===============================================" << endl;
-    cout << "                      LOGIN                    " << endl;
-    cout << "===============================================" << endl;
+#include "validation.h"
+// Done
+bool login(bool *isAdmin, string *currentUser) {
+    printLine('=', 50);
+    cout << "                     LOGIN                       " << endl;
+    printLine('=', 50);
 
     int kesempatan = 3;
     string inNama, inPassword;
+    
     while (kesempatan > 0) {
-        cout << left << setw(20) <<"Masukkan Username" << ": ";
+        cout << setw(15) << left << "Username" << ": ";
         getline(cin, inNama);
-        cout << left << setw(20) <<"Masukkan Password" << ": ";
+        cout << setw(15) << left << "Password" << ": ";
         getline(cin, inPassword);
 
         for (int i = 0; i < adminIndex; i++) {
             if (admin[i].nama == inNama && admin[i].password == inPassword) {
-                cout << "===============================================" << endl;
-                cout << "[Login Admin Berhasil! Selamat Datang, " << inNama << "]" << endl;
-                isAdmin = true;
-                currentUser = admin[i].nama;
+                printLine('-', 50);
+                cout << "[LOGIN BERHASIL] Admin" << endl;
+                cout << "Selamat Datang, " << inNama << "!" << endl;
+                *isAdmin = true;
+                *currentUser = inNama;
                 return true;
             }
         }
 
         for (int i = 0; i < userIndex; i++) {
             if (user[i].nama == inNama && user[i].password == inPassword) {
-                cout << "===============================================" << endl;
-                cout << "[Login User Berhasil! Selamat Datang, " << inNama << "]" << endl;
-                isAdmin = false;
-                currentUser = user[i].nama;
+                printLine('-', 50);
+                cout << "[LOGIN BERHASIL] User" << endl;
+                cout << "Selamat Datang, " << inNama << "!" << endl;
+                *isAdmin = false;
+                *currentUser = inNama;
                 return true;
             }
         }
 
         kesempatan--;
         if (kesempatan > 0) {
-            cout << "\n[Login Gagal! Sisa percobaan: " << kesempatan << "]" << endl;
-        } else {
-            return false;
+            cout << "[LOGIN GAGAL]" << endl;
+            cout << "Sisa percobaan: " << kesempatan << endl;
+            printLine('-', 50);
         }
     }
+    
+    cout << "[LOGIN GAGAL]" << endl;
+    cout << "Anda telah mencapai batas maksimal." << endl;
     return false;
 }
-
+// Done
 void regis() {
-    cout << "==============================================" << endl;
-    cout << "                    REGISTER                  " << endl;
-    cout << "==============================================" << endl;
+    printLine('=', 50);
+    cout << "                   REGISTER                      " << endl;
+    printLine('=', 50);
 
-    if (userIndex >= maxuser){
-        cout << "[kapasitas memori penuh]" << endl;
+    if (userIndex >= maxuser) {
+        showError("Kapasitas pengguna penuh!");
         return;
     }
-    string tempNama;
-    while (true) {
-        cout << left << setw(20) <<"Masukkan Nama" << ": ";
-        getline(cin, tempNama);
 
-        bool namaDuplikat = false;
-        for (int i = 0; i < userIndex; i++) {
-            if (user[i].nama == tempNama) {
-                namaDuplikat = true;
-                break; 
-            }
-        }
+    pengguna* newUser = &user[userIndex];
 
-        if (namaDuplikat) {
-            cout << "[Nama sudah terdaftar. Gunakan nama lain]" << endl;
-            continue;
-        }
-        break; 
-    }
-    user[userIndex].nama = tempNama;
+    newUser->nama = getValidatedName("Nama", userIndex);
+    newUser->password = getValidatedPassword("Password", 8, 50);
+    newUser->email = getValidatedEmail("Email", userIndex);
 
-    cout << left << setw(20) <<"Masukkan Password" << ": ";
-    getline(cin, user[userIndex].password);
-    cout << left << setw(20) <<"Masukkan Email" << ": ";
-    getline(cin, user[userIndex].email);
-    cout << "----------------------------------------------" << endl;
-    cout << left << setw(20) <<"Masukkan Jalan" << ": ";
-    getline(cin, user[userIndex].alamat.jalan);
-    cout << left << setw(20) <<"Masukkan Kota" << ": ";
-    getline(cin, user[userIndex].alamat.kota);
-    cout << left << setw(20) <<"Masukkan provinsi" << ": ";
-    getline(cin, user[userIndex].alamat.provinsi);
-    user[userIndex].saldo = 0;
+    printLine('-', 50);
+    newUser->alamat.jalan = getValidatedInput("Alamat Jalan", 100);
+    newUser->alamat.kota = getValidatedInput("Kota", 50);
+    newUser->alamat.provinsi = getValidatedInput("Provinsi", 50);
+    
+    newUser->saldo = 0;
+
     userIndex++;
 
-    cout << "==============================================" << endl;
-    cout << "[Register User Berhasil!]" << endl;
+    printLine('-', 50);
+    showSuccess("REGISTER BERHASIL");
 }
 
 #endif

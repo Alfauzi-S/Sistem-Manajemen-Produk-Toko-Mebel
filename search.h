@@ -2,17 +2,18 @@
 #define SEARCH_H
 
 #include "library.h"
-#include "sort.h"
 #include "struct.h"
-#include "error_handling.h"
+#include "sort.h"
+#include "menu.h"
+#include "validation.h"
 
-int binarySearch(produk* arr, int n, int target) {
+int binarySearch(produk arr[], int n, int target) {
     int low = 0;
     int high = n - 1;
-
+    
     while (low <= high) {
-        int mid = low + (high - low) / 2;
-
+        int mid = (low + high) / 2;
+        
         if (arr[mid].idProduk == target) {
             return mid;
         } else if (arr[mid].idProduk < target) {
@@ -24,7 +25,7 @@ int binarySearch(produk* arr, int n, int target) {
     return -1;
 }
 
-int linearSearch(produk* arr, int n, const string& target) {
+int linearSearch(produk arr[], int n, string target) {
     for (int i = 0; i < n; i++) {
         if (arr[i].namaProduk == target) {
             return i;
@@ -36,60 +37,101 @@ int linearSearch(produk* arr, int n, const string& target) {
 void Search() {
     string pilihan;
     while (true) {
-        system("cls");
+        clearScreen();
         menuSearch();
         getline(cin, pilihan);
-
+        
         if (pilihan == "1") {
-            system("cls");
             if (mabelIndex == 0) {
-                cout << "\nTidak ada produk untuk dicari." << endl;
+                cout << endl << "     [ERROR] Tidak ada produk untuk dicari!" << endl;
             } else {
                 bubbleSort(mabel, mabelIndex);
-                int target = getPositiveInt("Masukan ID: ");
+                
+                cout << endl;
+                printLine('-', 50);
+                cout << "     Masukkan ID Produk : ";
+                string inputId;
+                getline(cin, inputId);
+                
+                bool valid = true;
+                for (char c : inputId) {
+                    if (c < '0' || c > '9') {
+                        valid = false;
+                        break;
+                    }
+                }
+                
+                if (!valid || inputId.empty()) {
+                    cout << endl << "     [ERROR] ID harus berupa angka!" << endl;
+                    pauseScreen();
+                    continue;
+                }
+                
+                int target = 0;
+                for (int i = 0; i < inputId.length(); i++) {
+                    target = target * 10 + (inputId[i] - '0');
+                }
+                
                 int index = binarySearch(mabel, mabelIndex, target);
+                
                 if (index != -1) {
-                    cout << "\nProduk ditemukan!, " << "Index : " << index << endl;
-                    cout << "ID: " << mabel[index].idProduk << endl;
-                    cout << "Nama: " << mabel[index].namaProduk << endl;
-                    cout << "Harga: Rp " << mabel[index].harga << endl;
-                    cout << "Stok: " << mabel[index].stock << endl;
-                    cout << "ID Material: " << mabel[index].material.idMaterial << endl;
-                    cout << "Nama Material: " << mabel[index].material.namaMaterial << endl;
-                    cout << "Jenis Material: " << mabel[index].material.jenisMaterial << endl;
+                    cout << endl;
+                    printLine('=', 50);
+                    cout << "                 HASIL PENCARIAN                 " << endl;
+                    printLine('=', 50);
+                    cout << "     ID Produk      : " << mabel[index].idProduk << endl;
+                    cout << "     Nama Produk    : " << mabel[index].namaProduk << endl;
+                    cout << "     Jenis Produk   : " << mabel[index].jenisProduk << endl;
+                    cout << "     Harga          : Rp " << mabel[index].harga << endl;
+                    cout << "     Stok           : " << mabel[index].stock << endl;
+                    cout << "     ID Material    : " << mabel[index].material.idMaterial << endl;
+                    cout << "     Nama Material  : " << mabel[index].material.namaMaterial << endl;
+                    cout << "     Jenis Material : " << mabel[index].material.jenisMaterial << endl;
+                    printLine('=', 50);
                 } else {
-                    cout << "\nProduk dengan ID " << target << " tidak ditemukan." << endl;
+                    cout << endl << "     [ERROR] Produk dengan ID " << target << " tidak ditemukan!" << endl;
                 }
             }
-            system("pause");
-        } else if (pilihan == "2") {
-            system("cls");
+            pauseScreen();
+        } 
+        else if (pilihan == "2") {
             if (mabelIndex == 0) {
-                cout << "\nTidak ada produk untuk dicari." << endl;
+                cout << endl << "     [ERROR] Tidak ada produk untuk dicari!" << endl;
             } else {
+                cout << endl;
+                printLine('-', 50);
+                cout << "     Masukkan Nama Produk : ";
                 string target;
-                cout << "Masukan Nama Produk: ";
                 getline(cin, target);
+                
                 int index = linearSearch(mabel, mabelIndex, target);
+                
                 if (index != -1) {
-                    cout << "\nProduk ditemukan!, " << "Index : " << index << endl;
-                    cout << "ID: " << mabel[index].idProduk << endl;
-                    cout << "Nama: " << mabel[index].namaProduk << endl;
-                    cout << "Harga: Rp " << mabel[index].harga << endl;
-                    cout << "Stok: " << mabel[index].stock << endl;
-                    cout << "ID Material: " << mabel[index].material.idMaterial << endl;
-                    cout << "Nama Material: " << mabel[index].material.namaMaterial << endl;
-                    cout << "Jenis Material: " << mabel[index].material.jenisMaterial << endl;
+                    cout << endl;
+                    printLine('=', 50);
+                    cout << "                 HASIL PENCARIAN                 " << endl;
+                    printLine('=', 50);
+                    cout << "     ID Produk      : " << mabel[index].idProduk << endl;
+                    cout << "     Nama Produk    : " << mabel[index].namaProduk << endl;
+                    cout << "     Jenis Produk   : " << mabel[index].jenisProduk << endl;
+                    cout << "     Harga          : Rp " << mabel[index].harga << endl;
+                    cout << "     Stok           : " << mabel[index].stock << endl;
+                    cout << "     ID Material    : " << mabel[index].material.idMaterial << endl;
+                    cout << "     Nama Material  : " << mabel[index].material.namaMaterial << endl;
+                    cout << "     Jenis Material : " << mabel[index].material.jenisMaterial << endl;
+                    printLine('=', 50);
                 } else {
-                    cout << "\nProduk dengan Nama " << target << " tidak ditemukan." << endl;
+                    cout << endl << "     [ERROR] Produk dengan nama '" << target << "' tidak ditemukan!" << endl;
                 }
             }
-            system("pause");
-        } else if (pilihan == "0") {
+            pauseScreen();
+        } 
+        else if (pilihan == "0") {
             break;
-        } else {
-            cout << "\nPilihan tidak valid. Silakan coba lagi." << endl;
-            system("pause");
+        } 
+        else {
+            cout << endl << "     [ERROR] Pilihan tidak valid!" << endl;
+            pauseScreen();
         }
     }
 }
