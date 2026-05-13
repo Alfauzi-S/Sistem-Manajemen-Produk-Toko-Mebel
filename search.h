@@ -7,12 +7,12 @@
 #include "menu.h"
 #include "validation.h"
 
-int binarySearch(produk arr[], int n, int target) {
+int binarySearch(produk arr[], int n, const string& target) {
     int low = 0;
     int high = n - 1;
     
     while (low <= high) {
-        int mid = (low + high) / 2;
+        int mid = low + (high - low) / 2;
         
         if (arr[mid].idProduk == target) {
             return mid;
@@ -45,17 +45,19 @@ void Search() {
             if (mabelIndex == 0) {
                 cout << endl << "     [ERROR] Tidak ada produk untuk dicari!" << endl;
             } else {
+                // Urutkan array berdasarkan idProduk (string)
                 bubbleSort(mabel, mabelIndex);
                 
                 cout << endl;
                 printLine('-', 50);
-                cout << "     Masukkan ID Produk : ";
+                cout << "     Masukkan ID Produk (angka saja) : ";
                 string inputId;
                 getline(cin, inputId);
                 
+                // Validasi input berupa angka
                 bool valid = true;
                 for (char c : inputId) {
-                    if (c < '0' || c > '9') {
+                    if (!isdigit(c)) {
                         valid = false;
                         break;
                     }
@@ -67,12 +69,16 @@ void Search() {
                     continue;
                 }
                 
-                int target = 0;
-                for (int i = 0; i < inputId.length(); i++) {
-                    target = target * 10 + (inputId[i] - '0');
-                }
+                // Konversi ke integer
+                int idNum = stoi(inputId);
                 
-                int index = binarySearch(mabel, mabelIndex, target);
+                // Format menjadi "PRDxxx"
+                stringstream ss;
+                ss << "PRD" << setw(3) << setfill('0') << idNum;
+                string targetId = ss.str();
+                
+                // Cari dengan binary search
+                int index = binarySearch(mabel, mabelIndex, targetId);
                 
                 if (index != -1) {
                     cout << endl;
@@ -89,12 +95,13 @@ void Search() {
                     cout << "     Jenis Material : " << mabel[index].material.jenisMaterial << endl;
                     printLine('=', 50);
                 } else {
-                    cout << endl << "     [ERROR] Produk dengan ID " << target << " tidak ditemukan!" << endl;
+                    cout << endl << "     [ERROR] Produk dengan ID " << targetId << " tidak ditemukan!" << endl;
                 }
             }
             pauseScreen();
         } 
         else if (pilihan == "2") {
+            // Pencarian berdasarkan nama (linear search) tidak perlu diubah
             if (mabelIndex == 0) {
                 cout << endl << "     [ERROR] Tidak ada produk untuk dicari!" << endl;
             } else {

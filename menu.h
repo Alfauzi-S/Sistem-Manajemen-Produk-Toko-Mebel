@@ -17,6 +17,18 @@ void Header(string c, int length) {
     printLine('=', length);
 }
 // Done
+void showSuccess(const string& msg) {
+    cout << "[SUKSES] " << msg << endl;
+}
+// Done
+void showError(const string& msg) {
+    cout << "[ERROR] " << msg << endl;
+}
+// Done
+void showInfo(const string& msg) {
+    cout << "[INFO] " << msg << endl;
+}
+// Done
 void menu() {
     Header("SISTEM MANAJEMEN TOKO MEBEL", 50);
     cout << "1. Login" << endl;

@@ -246,57 +246,36 @@ void deleteMaterial() {
 
 int pilihMaterial() {
     if (materialIndex == 0) {
-        cout << endl;
-        cout << "     [ERROR] Belum ada material. Silakan tambah material terlebih dahulu!" << endl;
+        showError("Belum ada material. Silakan tambah material terlebih dahulu!");
         return -1;
     }
     
     while (true) {
-        try {
-            cout << endl;
-            printLine('=', 50);
-            cout << "                  PILIH MATERIAL                   " << endl;
-            printLine('=', 50);
-            
-            for (int i = 0; i < materialIndex; i++) {
-                cout << "     " << i + 1 << ". " 
-                     << materialDb[i].idMaterial << " - " 
-                     << materialDb[i].namaMaterial << " (" 
-                     << materialDb[i].jenisMaterial << ")" << endl;
-            }
-            cout << "     0. Batal" << endl;
-            printLine('=', 50);
-            cout << "     Pilih material (nomor): ";
-            
-            string input;
-            getline(cin, input);
-            
-            if (input.empty()) {
-                throw invalid_argument("Pilihan tidak boleh kosong!");
-            }
-            
-            for (char c : input) {
-                if (c < '0' || c > '9') {
-                    throw invalid_argument("Harus berupa angka!");
-                }
-            }
-            
-            int pilihan = 0;
-            for (int i = 0; i < input.length(); i++) {
-                pilihan = pilihan * 10 + (input[i] - '0');
-            }
-            
-            if (pilihan == 0) return -1;
-            if (pilihan >= 1 && pilihan <= materialIndex) return pilihan - 1;
-            
-            throw invalid_argument("Pilihan tidak valid!");
+        Header("PILIH MATERIAL", 50);
+        cout << " " << setw(3) << left << "No" << " | "
+             << setw(12) << left << "ID Material" << " | "
+             << setw(22) << left << "Nama Material" << " | "
+             << setw(15) << left << "Jenis Material" << endl;
+        printLine('-', 50);
+
+        for (int i = 0; i < materialIndex; i++) {
+            cout << " " << setw(3) << left << i+1 << " | "
+                 << setw(12) << left << materialDb[i].idMaterial << " | "
+                 << setw(22) << left << materialDb[i].namaMaterial << " | "
+                 << setw(15) << left << materialDb[i].jenisMaterial << endl;
         }
-        catch (const invalid_argument& e) {
-            cout << "     [ERROR] " << e.what() << endl;
+        cout << " " << setw(3) << left << "0" << " | Batal" << endl;
+        printLine('-', 50);
+        
+        int input = getInt("Pilih material (nomor)", 15);
+        
+        if (input == 0) {
+            return -1;
         }
-        catch (const exception& e) {
-            cout << "     [ERROR] " << e.what() << endl;
+        if (input >= 1 && input <= materialIndex) {
+            return input - 1;
         }
+        cout << "[ERROR] Nomor tidak valid. Silakan coba lagi." << endl;
     }
 }
 
