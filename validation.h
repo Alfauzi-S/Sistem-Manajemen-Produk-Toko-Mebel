@@ -18,23 +18,11 @@ void pauseScreen() {
     cin.get();
 }
 // Done
-void showSuccess(const string& msg) {
-    cout << "[SUKSES] " << msg << endl;
-}
-// Done
-void showError(const string& msg) {
-    cout << "[ERROR] " << msg << endl;
-}
-// Done
-void showInfo(const string& msg) {
-    cout << "[INFO] " << msg << endl;
-}
-// Done
-string getValidatedName(const string& prompt, int exclude) {
+string getName(const string& prompt, int exclude, int maxLen, int space) {
     string input;
     while (true) {
         try {
-            cout << setw(15) << left << prompt << ": ";
+            cout << setw(space) << left << prompt << ": ";
             getline(cin, input);
             
             if (input.empty()) {
@@ -52,8 +40,8 @@ string getValidatedName(const string& prompt, int exclude) {
                 throw invalid_argument("Nama tidak boleh hanya spasi!");
             }
             
-            if (input.length() > 50) {
-                throw invalid_argument("Nama maksimal 50 karakter!");
+            if (input.length() > maxLen) {
+                throw invalid_argument("Maksimal " + to_string(maxLen) + " karakter!");
             }
             
             bool duplicate = false;
@@ -79,19 +67,68 @@ string getValidatedName(const string& prompt, int exclude) {
             return input;
         }
         catch (const invalid_argument& e) {
-            cout << setw(15) << left << " " << "[ERROR] " << e.what() << endl;
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
         }
         catch (const exception& e) {
-            cout << setw(15) << left << " " << "[ERROR] " << e.what() << endl;
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
         }
     }
 }
 // Done
-string getValidatedPassword(const string& prompt, int minLen, int maxLen) {
+string getNamePrd(const string& prompt, int exclude, int maxLen, int space) {
     string input;
     while (true) {
         try {
-            cout << setw(15) << left << prompt << ": ";
+            cout << setw(space) << left << prompt << ": ";
+            getline(cin, input);
+            
+            if (input.empty()) {
+                throw invalid_argument("Input tidak boleh kosong!");
+            }
+            
+            bool onlySpaces = true;
+            for (char c : input) {
+                if (!isspace(c)) {
+                    onlySpaces = false;
+                    break;
+                }
+            }
+            if (onlySpaces) {
+                throw invalid_argument("Input tidak boleh hanya spasi!");
+            }
+            
+            if (input.length() > maxLen) {
+                throw invalid_argument("Maksimal " + to_string(maxLen) + " karakter!");
+            }
+            
+            bool duplicate = false;
+            for (int i = 0; i < mabelIndex; i++) {
+                if (mabel[i].namaProduk == input && i != exclude) {
+                    duplicate = true;
+                    break;
+                }
+            }
+            
+            if (duplicate) {
+                throw invalid_argument("Nama Produk sudah terdaftar!");
+            }
+            
+            return input;
+        }
+        catch (const invalid_argument& e) {
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
+        }
+        catch (const exception& e) {
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
+        }
+    }
+}
+// Done
+string getPassword(const string& prompt, int minLen, int maxLen , int space) {
+    string input;
+    while (true) {
+        try {
+            cout << setw(space) << left << prompt << ": ";
             getline(cin, input);
             
             if (input.empty()) {
@@ -120,19 +157,19 @@ string getValidatedPassword(const string& prompt, int minLen, int maxLen) {
             return input;
         }
         catch (const invalid_argument& e) {
-            cout << setw(15) << left << " " << "[ERROR] " << e.what() << endl;
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
         }
         catch (const exception& e) {
-            cout << setw(15) << left << " " << "[ERROR] " << e.what() << endl;
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
         }
     }
 }
 // Done
-string getValidatedEmail(const string& prompt, int exclude) {
+string getEmail(const string& prompt, int exclude, int space) {
     string email;
     while (true) {
         try {
-            cout << setw(15) << prompt << ": ";
+            cout << setw(space) << prompt << ": ";
             getline(cin, email);
 
             
@@ -165,23 +202,23 @@ string getValidatedEmail(const string& prompt, int exclude) {
             if (isEmailDuplicate) {
                 throw invalid_argument("Email sudah terdaftar!");
             }
-            cout << setw(15) << left << " " << ">> Email terdaftar: " << email << endl;
+            cout << setw(space) << left << " " << ">> Email terdaftar: " << email << endl;
             return email;
         }
         catch (const invalid_argument& e) {
-            cout << setw(15) << left << " " << "[ERROR] " << e.what() << endl;
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
         }
         catch (const exception& e) {
-            cout << setw(15) << left << " " << "[ERROR] " << e.what() << endl;
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
         }
     }
 }
 // Done
-string getValidatedInput(const string& prompt, int maxLen) {
+string getInput(const string& prompt, int maxLen, int space) {
     string input;
     while (true) {
         try {
-            cout << setw(15) << left << prompt << ": ";
+            cout << setw(space) << left << prompt << ": ";
             getline(cin, input);
             
             if (input.empty()) {
@@ -206,56 +243,107 @@ string getValidatedInput(const string& prompt, int maxLen) {
             return input;
         }
         catch (const invalid_argument& e) {
-            cout << setw(15) << left << " " << "[ERROR] " << e.what() << endl;
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
         }
         catch (const exception& e) {
-            cout << setw(15) << left << " " << "[ERROR] " << e.what() << endl;
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
         }
     }
 }
 
-int getPositiveInt(const string& prompt) {
+int getInt(const string& prompt, int space) {
     string input;
     while (true) {
         try {
-            cout << prompt << ": ";
+            cout << setw(space) << left << prompt << ": ";
             getline(cin, input);
             
-            if (input.empty()) {
+            // Trim spasi di awal dan akhir
+            size_t start = input.find_first_not_of(" \t");
+            if (start == string::npos) {
                 throw invalid_argument("Input tidak boleh kosong!");
             }
+            size_t end = input.find_last_not_of(" \t");
+            string trimmed = input.substr(start, end - start + 1);
             
-            for (char c : input) {
-                if (c < '0' || c > '9') {
-                    throw invalid_argument("Harus berupa angka!");
-                }
-            }
-            
-            int angka = 0;
-            for (int i = 0; i < input.length(); i++) {
-                angka = angka * 10 + (input[i] - '0');
-            }
-            
-            if (angka < 0) {
+            // Cek negatif setelah trim
+            if (trimmed[0] == '-') {
                 throw invalid_argument("Harus bernilai positif!");
             }
             
+            // Validasi semua karakter adalah digit
+            for (char c : trimmed) {
+                if (!isdigit(c)) {
+                    throw invalid_argument("Harus berupa angka bulat positif!");
+                }
+            }
+            
+            int angka = stoi(trimmed); // jika melebihi stoi bisa throw out_of_range
             return angka;
         }
         catch (const invalid_argument& e) {
-            cout << "     [ERROR] " << e.what() << endl;
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
+        }
+        catch (const out_of_range& e) {
+            cout << setw(space) << left << " " << "[ERROR] Angka terlalu besar (maksimum 2147483647)!" << endl;
         }
         catch (const exception& e) {
-            cout << "     [ERROR] " << e.what() << endl;
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
         }
     }
 }
 
-bool confirm(const string& prompt) {
+int getIntNotZero(const string& prompt, int space) {
     string input;
     while (true) {
         try {
-            cout << prompt << " (y/n): ";
+            cout << setw(space) << left << prompt << ": ";
+            getline(cin, input);
+            
+            // Trim spasi di awal dan akhir
+            size_t start = input.find_first_not_of(" \t");
+            if (start == string::npos) {
+                throw invalid_argument("Input tidak boleh kosong!");
+            }
+            size_t end = input.find_last_not_of(" \t");
+            string trimmed = input.substr(start, end - start + 1);
+            
+            // Cek negatif setelah trim
+            if (trimmed[0] == '-') {
+                throw invalid_argument("Harus bernilai positif!");
+            }
+            
+            // Validasi semua karakter adalah digit
+            for (char c : trimmed) {
+                if (!isdigit(c)) {
+                    throw invalid_argument("Harus berupa angka bulat positif!");
+                }
+            }
+            
+            int angka = stoi(trimmed); // jika melebihi stoi bisa throw out_of_range
+            return angka;
+
+            if (angka <= 0) {
+                throw invalid_argument("Harus lebih besar dari 0!");
+            }
+        }
+        catch (const invalid_argument& e) {
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
+        }
+        catch (const out_of_range& e) {
+            cout << setw(space) << left << " " << "[ERROR] Angka terlalu besar (maksimum 2147483647)!" << endl;
+        }
+        catch (const exception& e) {
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
+        }
+    }
+}
+
+bool confirm(const string& prompt, int space) {
+    string input;
+    while (true) {
+        try {
+            cout << setw(space) << left << prompt << " : ";
             getline(cin, input);
             
             if (input == "y" || input == "Y") return true;
@@ -263,10 +351,10 @@ bool confirm(const string& prompt) {
             throw invalid_argument("Masukkan y atau n!");
         }
         catch (const invalid_argument& e) {
-            cout << "     [ERROR] " << e.what() << endl;
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
         }
         catch (const exception& e) {
-            cout << "     [ERROR] " << e.what() << endl;
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
         }
     }
 }

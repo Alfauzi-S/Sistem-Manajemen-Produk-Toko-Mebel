@@ -29,7 +29,7 @@ struct material {
 };
 
 struct produk {
-    int idProduk;
+    string idProduk;
     string namaProduk;
     string jenisProduk;
     int stock;

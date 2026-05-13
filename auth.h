@@ -6,9 +6,7 @@
 #include "validation.h"
 // Done
 bool login(bool *isAdmin, string *currentUser) {
-    printLine('=', 50);
-    cout << "                     LOGIN                       " << endl;
-    printLine('=', 50);
+    Header("LOGIN", 50);
 
     int kesempatan = 3;
     string inNama, inPassword;
@@ -22,8 +20,7 @@ bool login(bool *isAdmin, string *currentUser) {
         for (int i = 0; i < adminIndex; i++) {
             if (admin[i].nama == inNama && admin[i].password == inPassword) {
                 printLine('-', 50);
-                cout << "[LOGIN BERHASIL] Admin" << endl;
-                cout << "Selamat Datang, " << inNama << "!" << endl;
+                showInfo("LOGIN BERHASIL ADMIN - Selamat Datang " + inNama);
                 *isAdmin = true;
                 *currentUser = inNama;
                 return true;
@@ -33,8 +30,7 @@ bool login(bool *isAdmin, string *currentUser) {
         for (int i = 0; i < userIndex; i++) {
             if (user[i].nama == inNama && user[i].password == inPassword) {
                 printLine('-', 50);
-                cout << "[LOGIN BERHASIL] User" << endl;
-                cout << "Selamat Datang, " << inNama << "!" << endl;
+                showInfo("LOGIN BERHASIL USER - Selamat Datang " + inNama);
                 *isAdmin = false;
                 *currentUser = inNama;
                 return true;
@@ -43,21 +39,16 @@ bool login(bool *isAdmin, string *currentUser) {
 
         kesempatan--;
         if (kesempatan > 0) {
-            cout << "[LOGIN GAGAL]" << endl;
-            cout << "Sisa percobaan: " << kesempatan << endl;
+            showInfo("LOGIN GAGAL - Sisa percobaan: " + to_string(kesempatan));
             printLine('-', 50);
         }
     }
-    
-    cout << "[LOGIN GAGAL]" << endl;
-    cout << "Anda telah mencapai batas maksimal." << endl;
+    showInfo("LOGIN GAGAL - Anda telah mencapai batas maksimal.");
     return false;
 }
 // Done
 void regis() {
-    printLine('=', 50);
-    cout << "                   REGISTER                      " << endl;
-    printLine('=', 50);
+    Header("REGISTER", 50);
 
     if (userIndex >= maxuser) {
         showError("Kapasitas pengguna penuh!");
@@ -66,14 +57,14 @@ void regis() {
 
     pengguna* newUser = &user[userIndex];
 
-    newUser->nama = getValidatedName("Nama", userIndex);
-    newUser->password = getValidatedPassword("Password", 8, 50);
-    newUser->email = getValidatedEmail("Email", userIndex);
+    newUser->nama = getName("Nama", userIndex, 100, 15);
+    newUser->password = getPassword("Password", 8, 100, 15);
+    newUser->email = getEmail("Email", userIndex, 15);
 
     printLine('-', 50);
-    newUser->alamat.jalan = getValidatedInput("Alamat Jalan", 100);
-    newUser->alamat.kota = getValidatedInput("Kota", 50);
-    newUser->alamat.provinsi = getValidatedInput("Provinsi", 50);
+    newUser->alamat.jalan = getInput("Alamat Jalan", 100, 15);
+    newUser->alamat.kota = getInput("Kota", 100, 15);
+    newUser->alamat.provinsi = getInput("Provinsi", 100, 15);
     
     newUser->saldo = 0;
 

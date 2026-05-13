@@ -8,8 +8,8 @@
 #include "material.h"
 // Done
 void read() {
-    Header("DAFTAR PRODUK MEBEL", 122);
-    cout << " " << setw(3) << left << "ID" << " | "
+    Header("DAFTAR PRODUK MEBEL", 127);
+    cout << " " << setw(8) << left << "ID" << " | "
         << setw(22) << left << "Nama Produk" << " | "
         << setw(8) << left << "Jenis" << " | "
         << setw(6) << left << "Stock" << " | "
@@ -17,10 +17,10 @@ void read() {
         << setw(11) << left << "ID Material" << " | "
         << setw(20) << left << "Nama Material" << " | "
         << setw(15) << left << "Jenis Material" << endl;
-    printLine('-', 122);
+    printLine('-', 127);
 
     for (int i = 0; i < mabelIndex; i++) {
-        cout << " " << setw(3) << left << mabel[i].idProduk << " | "
+        cout << " " << setw(8) << left << mabel[i].idProduk << " | "
             << setw(22) << left << mabel[i].namaProduk << " | "
             << setw(8) << left << mabel[i].jenisProduk << " | "
             << setw(6) << right << mabel[i].stock << " | "
@@ -30,70 +30,73 @@ void read() {
             << setw(15) << left << mabel[i].material.jenisMaterial << endl;
     }
     
-    printLine('-', 122);
+    printLine('-', 127);
     cout << " Total Produk: " << mabelIndex << endl;
-    printLine('=', 122);
+    printLine('=', 127);
 }
-
+// Done
 void create() {
     Header("CREATE PRODUK", 50);
 
     if (mabelIndex >= maxproduk) {
-        cout << "[ERROR] Kapasitas memori penuh!" << endl;
+        showError("Kapasitas memori penuh!");
         return;
     }
 
-    int idBaru;
-    if (mabelIndex == 0) {
-        idBaru = 101;
-    } else {
-        idBaru = mabel[mabelIndex - 1].idProduk + 1;
+    int maxId = 0;
+    for (int i = 0; i < mabelIndex; i++) {
+        string idStr = mabel[i].idProduk;
+        if (idStr.length() >= 6 && idStr.substr(0, 3) == "PRD") {  // substr(0, 3) ambil "PRD"
+            string numStr = idStr.substr(3);  // ambil "000" setelah "PRD" 
+            int num = stoi(numStr); // konversi ke integer
+            if (num > maxId) maxId = num; // ketemu idBaru
+        }
     }
 
+    int nextId = maxId + 1;
+    string idBaru = "PRD";
+    if (nextId < 10) {
+        idBaru += "00" + to_string(nextId);
+    } else if (nextId < 100) {
+        idBaru += "0" + to_string(nextId);
+    } else {
+        idBaru += to_string(nextId);
+    }
+    
+    produk *newMabel = &mabel[mabelIndex];
+
     cout << setw(15) << left << "ID Produk" << ": " << idBaru << endl;
-    mabel[mabelIndex].idProduk = idBaru;
+    newMabel->idProduk = idBaru;
+    newMabel->namaProduk = getNamePrd("Nama Baru", mabelIndex, 100, 15);
+    newMabel->jenisProduk = getInput("Jenis Produk", 50, 15);
+    newMabel->stock = getInt("Stok Produk", 15);
+    newMabel->harga = getInt("Harga Produk", 15);
 
-    cout << "Nama Produk : ";
-    getline(cin, mabel[mabelIndex].namaProduk);
-
-    cout << "Jenis Produk : ";
-    getline(cin, mabel[mabelIndex].jenisProduk);
-
-    mabel[mabelIndex].stock = getPositiveInt("Stok Produk");
-    mabel[mabelIndex].harga = getPositiveInt("Harga Produk");
-
-    cout << endl;
-    cout << "Pilih Material untuk produk ini]" << endl;
+    cout << "Pilih Material untuk produk ini" << endl;
     int materialIndexChoice = pilihMaterial();
     
     if (materialIndexChoice == -1) {
-        cout << endl << "[INFO] Pembuatan produk dibatalkan!" << endl;
+        showInfo("Pembuatan produk dibatalkan!");
         return;
     }
     
-    mabel[mabelIndex].material = materialDb[materialIndexChoice];
+    newMabel->material = materialDb[materialIndexChoice];
     mabelIndex++;
     
-    cout << endl;
     printLine('-', 50);
-    cout << "[SUKSES] Produk berhasil ditambahkan!" << endl;
+    showSuccess("Produk berhasil ditambahkan!");
 }
-
+// Done
 void update() {
-    cout << endl;
-    printLine('=', 50);
-    cout << "                    UPDATE PRODUK                   " << endl;
-    printLine('=', 50);
-    cout << endl;
-
+    Header("UPDATE PRODUK", 127);
     if (mabelIndex == 0) {
-        cout << "     [ERROR] Data Produk Kosong!" << endl;
+        showError("Data Produk Kosong!");
         return;
     };
 
     read();
 
-    int idCari = getPositiveInt("     Masukkan ID produk");
+    string idCari = getInput("Input ID produk", 50, 20);
     int indexKetemu = -1;
 
     for (int i = 0; i < mabelIndex; i++) {
@@ -104,96 +107,85 @@ void update() {
     }
     
     if (indexKetemu == -1) {
-        cout << endl << "     [ERROR] Produk dengan ID " << idCari << " tidak ditemukan!" << endl;
+        showError("Produk dengan ID " + idCari + " tidak ditemukan!");
         return;
     }
 
+    produk *updateMabel = &mabel[indexKetemu];
     string pilihan;
-    string namaBaru = mabel[indexKetemu].namaProduk;
-    string jenisBaru = mabel[indexKetemu].jenisProduk;
-    int stockBaru = mabel[indexKetemu].stock;
-    int hargaBaru = mabel[indexKetemu].harga;
-    material materialBaru = mabel[indexKetemu].material;
+    string namaBaru = updateMabel->namaProduk;
+    string jenisBaru = updateMabel->jenisProduk;
+    int stockBaru = updateMabel->stock;
+    int hargaBaru = updateMabel->harga;
+    material materialBaru = updateMabel->material;
 
     while (true) {
         clearScreen();
-        cout << endl;
-        printLine('=', 50);
-        cout << "                 DATA PRODUK SAAT INI              " << endl;
-        printLine('=', 50);
-        cout << "     ID Produk : " << mabel[indexKetemu].idProduk << endl;
-        cout << "     Nama      : " << namaBaru << endl;
-        cout << "     Jenis     : " << jenisBaru << endl;
-        cout << "     Stok      : " << stockBaru << endl;
-        cout << "     Harga     : Rp " << hargaBaru << endl;
-        cout << "     Material  : " << materialBaru.namaMaterial << endl;
-        printLine('=', 50);
-
+        Header("DATA PRODUK SAAT INI", 50);
+        cout << setw(15) << left << "ID Produk" << " : " << mabel[indexKetemu].idProduk << endl;
+        cout << setw(15) << left << "Nama" << " : " << namaBaru << endl;
+        cout << setw(15) << left << "Jenis" << " : "<< jenisBaru << endl;
+        cout << setw(15) << left << "Stok" << " : "<< stockBaru << endl;
+        cout << setw(15) << left << "Harga" << " : Rp " << hargaBaru << endl;
+        cout << setw(15) << left << "Material" << " : " << materialBaru.namaMaterial << endl;
         menuUpdate();
         getline(cin, pilihan);
         
         if (pilihan == "1") {
-            cout << "     Nama Baru : ";
-            getline(cin, namaBaru);
+            namaBaru = getNamePrd("Nama Baru", mabelIndex, 100, 15);
         } 
         else if (pilihan == "2") {
-            cout << "     Jenis Baru : ";
-            getline(cin, jenisBaru);
+            jenisBaru = getInput("Jenis Baru", 100, 15);
         } 
         else if (pilihan == "3") {
-            stockBaru = getPositiveInt("     Stok Baru");
+            stockBaru = getInt("Stok Baru", 15);
         } 
         else if (pilihan == "4") {
-            hargaBaru = getPositiveInt("     Harga Baru");
+            hargaBaru = getInt("Harga Baru", 15);
         } 
         else if (pilihan == "5") {
-            cout << endl << "     [Pilih Material Baru]" << endl;
+            showInfo("Pilih Material Baru");
             int materialIndexChoice = pilihMaterial();
             if (materialIndexChoice != -1) {
                 materialBaru = materialDb[materialIndexChoice];
-                cout << endl << "     [SUKSES] Material berhasil diubah!" << endl;
+                showSuccess("Material berhasil diubah!");
             } else {
-                cout << endl << "     [INFO] Perubahan material dibatalkan" << endl;
+                showInfo("Perubahan material dibatalkan");
             }
         } 
         else if (pilihan == "0") {
-            if (confirm("     Simpan perubahan")) {
-                mabel[indexKetemu].namaProduk = namaBaru;
-                mabel[indexKetemu].jenisProduk = jenisBaru;
-                mabel[indexKetemu].stock = stockBaru;
-                mabel[indexKetemu].harga = hargaBaru;
-                mabel[indexKetemu].material = materialBaru;
+            if (confirm("Hapus produk ini [Y/N]", 22)) {
+                updateMabel->namaProduk = namaBaru;
+                updateMabel->jenisProduk = jenisBaru;
+                updateMabel->stock = stockBaru;
+                updateMabel->harga = hargaBaru;
+                updateMabel->material = materialBaru;
                 cout << endl;
-                printLine('=', 50);
-                cout << "     [SUKSES] Produk berhasil diupdate!" << endl;
-                printLine('=', 50);
+                printLine('-', 50);
+                showSuccess("Produk berhasil diupdate!");
             } else {
-                cout << endl << "     [INFO] Update produk dibatalkan" << endl;
+                showInfo("Update produk dibatalkan");
             }
             return;
         } 
         else {
-            cout << endl << "     [ERROR] Pilihan tidak valid!" << endl;
+            showError("Pilihan tidak valid!");
             pauseScreen();
         }
     }
 }
-
+// Done
 void del() {
-    cout << endl;
-    printLine('=', 50);
-    cout << "                    DELETE PRODUK                   " << endl;
-    printLine('=', 50);
-    cout << endl;
+    Header("DELETE PRODUK", 127);
     
     if (mabelIndex == 0) {
-        cout << "     [ERROR] Data Produk Kosong!" << endl;
+        showError("Data Produk Kosong!");
         return;
     };
     
     read();
 
-    int idCari = getPositiveInt("     Masukkan ID Produk");
+    string idCari = getInput("Input ID produk", 50, 20);
     int indexKetemu = -1;
 
     for (int i = 0; i < mabelIndex; i++) {
@@ -204,37 +196,30 @@ void del() {
     }
     
     if (indexKetemu == -1) {
-        cout << endl << "     [ERROR] Produk dengan ID " << idCari << " tidak ditemukan!" << endl;
+        showError("Produk dengan ID " + idCari + " tidak ditemukan!");
         return;
     }
 
-    int deletedId = mabel[indexKetemu].idProduk;
-    string deletedName = mabel[indexKetemu].namaProduk;
-
     clearScreen();
-    cout << endl;
-    printLine('=', 50);
-    cout << "              KONFIRMASI HAPUS PRODUK               " << endl;
-    printLine('=', 50);
-    cout << "     ID Produk : " << mabel[indexKetemu].idProduk << endl;
-    cout << "     Nama      : " << mabel[indexKetemu].namaProduk << endl;
-    cout << "     Jenis     : " << mabel[indexKetemu].jenisProduk << endl;
-    cout << "     Stok      : " << mabel[indexKetemu].stock << endl;
-    cout << "     Harga     : Rp " << mabel[indexKetemu].harga << endl;
+    Header("KONFIRMASI HAPUS PRODUK", 50);
+    cout << setw(15) << left << "ID Produk" << " : " << mabel[indexKetemu].idProduk << endl;
+    cout << setw(15) << left << "Nama" << " : " << mabel[indexKetemu].namaProduk << endl;
+    cout << setw(15) << left << "Jenis" << " : "<< mabel[indexKetemu].jenisProduk << endl;
+    cout << setw(15) << left << "Stok" << " : "<< mabel[indexKetemu].stock << endl;
+    cout << setw(15) << left << "Harga" << " : Rp " << mabel[indexKetemu].harga << endl;
+    cout << setw(15) << left << "Material" << " : " << mabel[indexKetemu].material.namaMaterial << endl;
     printLine('=', 50);
     
-    if (confirm("     Hapus produk ini")) {
+    if (confirm("Hapus produk ini [Y/N]", 22)) {
         for (int i = indexKetemu; i < mabelIndex - 1; i++) {
             mabel[i] = mabel[i + 1];
         }
         mabelIndex--;
         cout << endl;
-        printLine('=', 50);
-        cout << "     [SUKSES] Produk berhasil dihapus!" << endl;
-        cout << "     ID: " << deletedId << " | Nama: " << deletedName << endl;
-        printLine('=', 50);
+        printLine('-', 50);
+        showSuccess("Produk berhasil dihapus!");
     } else {
-        cout << endl << "     [INFO] Penghapusan produk dibatalkan" << endl;
+        showInfo("Penghapusan produk dibatalkan");
     }
 }
 

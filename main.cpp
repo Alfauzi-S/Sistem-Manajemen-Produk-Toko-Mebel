@@ -10,7 +10,7 @@
 #include "material.h"
 
 int main() {
-    mabel[0].idProduk = 101;
+    mabel[0].idProduk = "PRD001";
     mabel[0].namaProduk = "Daun Pintu Kayu Jati";
     mabel[0].jenisProduk = "Pintu";
     mabel[0].stock = 15;
@@ -19,7 +19,7 @@ int main() {
     mabel[0].material.namaMaterial = "Kayu Jati";
     mabel[0].material.jenisMaterial = "Kayu Solid";
 
-    mabel[1].idProduk = 102;
+    mabel[1].idProduk = "PRD002";
     mabel[1].namaProduk = "Daun Pintu HPL";
     mabel[1].jenisProduk = "Pintu";
     mabel[1].stock = 30;
@@ -28,7 +28,7 @@ int main() {
     mabel[1].material.namaMaterial = "HPL Abu-Abu";
     mabel[1].material.jenisMaterial = "Pelapis";
 
-    mabel[2].idProduk = 103;
+    mabel[2].idProduk = "PRD003";
     mabel[2].namaProduk = "Jendela Kaca Geser";
     mabel[2].jenisProduk = "Jendela";
     mabel[2].stock = 8;
@@ -37,7 +37,7 @@ int main() {
     mabel[2].material.namaMaterial = "Kayu Meranti";
     mabel[2].material.jenisMaterial = "Kayu Solid";
 
-    mabel[3].idProduk = 104;
+    mabel[3].idProduk = "PRD004";
     mabel[3].namaProduk = "Meja Makan Minimalis";
     mabel[3].jenisProduk = "Meja";
     mabel[3].stock = 12;
@@ -46,7 +46,7 @@ int main() {
     mabel[3].material.namaMaterial = "Plywood Biru";
     mabel[3].material.jenisMaterial = "Papan";
 
-    mabel[4].idProduk = 105;
+    mabel[4].idProduk = "PRD005";
     mabel[4].namaProduk = "Kursi Tamu Kayu";
     mabel[4].jenisProduk = "Kursi";
     mabel[4].stock = 20;
@@ -150,39 +150,39 @@ int main() {
                             menuUser();
                             getline(cin, pilihan);
                             
-                            if (pilihan == "1") {
-                                clearScreen();
-                                readUserandUpdate(currentUser);
-                                pauseScreen();
-                            }
-                            else if (pilihan == "2") {
-                                clearScreen();
-                                buy(currentUser);
-                                pauseScreen();
-                            }
-                            else if (pilihan == "3") {
-                                clearScreen();
-                                cart(currentUser);
-                                pauseScreen();
-                            }
-                            else if (pilihan == "4") {
-                                Sort();
-                            }
-                            else if (pilihan == "5") {
-                                Search();
-                            }
-                            else if (pilihan == "6") {
-                                clearScreen();
-                                topup(currentUser);
-                                pauseScreen();
-                            }
-                            else if (pilihan == "0") {
-                                break;
-                            }
-                            else {
-                                showError("Pilihan tidak valid!");
-                                pauseScreen();
-                            }
+                            // if (pilihan == "1") {
+                            //     clearScreen();
+                            //     readUserandUpdate(currentUser);
+                            //     pauseScreen();
+                            // }
+                            // else if (pilihan == "2") {
+                            //     clearScreen();
+                            //     buy(currentUser);
+                            //     pauseScreen();
+                            // }
+                            // else if (pilihan == "3") {
+                            //     clearScreen();
+                            //     cart(currentUser);
+                            //     pauseScreen();
+                            // }
+                            // else if (pilihan == "4") {
+                            //     Sort();
+                            // }
+                            // else if (pilihan == "5") {
+                            //     Search();
+                            // }
+                            // else if (pilihan == "6") {
+                            //     clearScreen();
+                            //     topup(currentUser);
+                            //     pauseScreen();
+                            // }
+                            // else if (pilihan == "0") {
+                            //     break;
+                            // }
+                            // else {
+                            //     showError("Pilihan tidak valid!");
+                            //     pauseScreen();
+                            // }
                         }
                     }
                 } else {
