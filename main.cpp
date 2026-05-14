@@ -105,11 +105,7 @@ int main() {
                             
                             if (pilihan == "1") {
                                 clearScreen();
-                                if (mabelIndex == 0) {
-                                    showError("Data Produk Kosong!");
-                                } else {
-                                    read();
-                                }
+                                read();
                                 pauseScreen();
                             }
                             else if (pilihan == "2") {

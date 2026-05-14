@@ -37,7 +37,7 @@ void menu() {
     printLine('-', 50);
     cout << "Masukkan Pilihan: ";
 }
-
+// Done
 void menuAdmin() {
     Header("MENU ADMIN", 50);
     cout << "1. Read Produk" << endl;
@@ -64,7 +64,7 @@ void menuUser() {
     printLine('-', 50);
     cout << "Masukkan Pilihan: ";
 }
-
+// Done
 void menuUpdate() {
     Header("UPDATE PRODUK", 50);
     cout << "1. Nama Produk" << endl;
@@ -72,6 +72,26 @@ void menuUpdate() {
     cout << "3. Stok" << endl;
     cout << "4. Harga" << endl;
     cout << "5. Material" << endl;
+    cout << "0. Simpan & Keluar" << endl;
+    printLine('-', 50);
+    cout << "Masukkan Pilihan: ";
+}
+// Done
+void menuMat() {
+    Header("MENU MATERIAL", 50);
+    cout << "1. Lihat Material" << endl;
+    cout << "2. Tambah Material" << endl;
+    cout << "3. Update Material" << endl;
+    cout << "4. Hapus Material" << endl;
+    cout << "0. Kembali" << endl;
+    printLine('-', 50);
+    cout << "Masukkan Pilihan: ";
+}
+// Done
+void menuUpdateMat() {
+    Header("UPDATE PRODUK", 50);
+    cout << "1. Nama Material" << endl;
+    cout << "2. Jenis Material" << endl;
     cout << "0. Simpan & Keluar" << endl;
     printLine('-', 50);
     cout << "Masukkan Pilihan: ";
