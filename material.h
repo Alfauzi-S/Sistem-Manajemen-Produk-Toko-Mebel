@@ -4,182 +4,143 @@
 #include "library.h"
 #include "struct.h"
 #include "validation.h"
+#include "menu.h"
 
-string generateMaterialId() {
-    string id = "MAT";
-    int num = materialIndex + 1;
-    
-    if (num < 10) {
-        id = id + "00" + to_string(num);
-    } else if (num < 100) {
-        id = id + "0" + to_string(num);
-    } else {
-        id = id + to_string(num);
-    }
-    return id;
-}
-
+// Done
 void readMaterial() {
-    cout << endl;
-    printLine('=', 65);
-    cout << "                   DAFTAR MATERIAL                    " << endl;
-    printLine('=', 65);
-    
-    cout << " No   | ID Material | Nama Material            | Jenis Material" << endl;
-    printLine('-', 65);
-    
     if (materialIndex == 0) {
-        cout << "                    [Belum ada material]                    " << endl;
+        showError("Data Material Kosong!");
     } else {
-        for (int i = 0; i < materialIndex; i++) {
-            cout << " " << setw(3) << right << i + 1 << " | ";
-            cout << setw(11) << left << materialDb[i].idMaterial << " | ";
-            
-            string nama = materialDb[i].namaMaterial;
-            if (nama.length() > 23) nama = nama.substr(0, 20) + "...";
-            cout << setw(23) << left << nama << " | ";
-            
-            cout << setw(15) << left << materialDb[i].jenisMaterial << endl;
-        }
-    }
-    
-    printLine('=', 65);
-    cout << " Total Material: " << materialIndex << endl;
-    printLine('=', 65);
-}
+        Header("DAFTAR MATERIAL", 53);
+        cout << " " << setw(11) << left << "ID Material" << " | "
+            << setw(20) << left << "Nama Material" << " | "
+            << setw(15) << left << "Jenis Material"  << endl;
+        printLine('-', 53);
 
+        for (int i = 0; i < materialIndex; i++) {
+            cout << " " << setw(11) << left << materialDb[i].idMaterial << " | "
+                << setw(20) << left << materialDb[i].namaMaterial << " | "
+                << setw(15) << left << materialDb[i].jenisMaterial << endl;
+        }
+        
+        printLine('-', 53);
+        cout << " Total Produk: " << materialIndex << endl;
+        printLine('=', 53);
+    }
+}
+// Done
 void createMaterial() {
-    cout << endl;
-    printLine('=', 50);
-    cout << "                   TAMBAH MATERIAL                   " << endl;
-    printLine('=', 50);
+    Header("TAMBAH MATERIAL", 50);
 
     if (materialIndex >= maxmaterial) {
-        cout << "     [ERROR] Kapasitas material penuh!" << endl;
+        showError("Kapasitas memori penuh!");
         return;
     }
 
-    string idMaterial = generateMaterialId();
-    cout << "     ID Material : " << idMaterial << " (Auto Generate)" << endl;
-    
-    string namaMaterial;
-    while (true) {
-        try {
-            cout << "     Nama Material : ";
-            getline(cin, namaMaterial);
-            if (namaMaterial.empty()) {
-                throw invalid_argument("Nama material tidak boleh kosong!");
-            }
-            break;
-        }
-        catch (const invalid_argument& e) {
-            cout << "     [ERROR] " << e.what() << endl;
+    int maxId = 0;
+    for (int i = 0; i < materialIndex; i++) {
+        string idStr = materialDb[i].idMaterial;
+        if (idStr.length() >= 6 && idStr.substr(0, 3) == "MAT") {  // substr(0, 3) ambil "MAT"
+            string numStr = idStr.substr(3);  // ambil "000" setelah "MAT" 
+            int num = stoi(numStr); // konversi ke integer
+            if (num > maxId) maxId = num; // ketemu idBaru
         }
     }
-    
-    string jenisMaterial;
-    while (true) {
-        try {
-            cout << "     Jenis Material : ";
-            getline(cin, jenisMaterial);
-            if (jenisMaterial.empty()) {
-                throw invalid_argument("Jenis material tidak boleh kosong!");
-            }
-            break;
-        }
-        catch (const invalid_argument& e) {
-            cout << "     [ERROR] " << e.what() << endl;
-        }
+
+    int nextId = maxId + 1;
+    string idBaru = "MAT";
+    if (nextId < 10) {
+        idBaru += "00" + to_string(nextId);
+    } else if (nextId < 100) {
+        idBaru += "0" + to_string(nextId);
+    } else {
+        idBaru += to_string(nextId);
     }
-    
-    materialDb[materialIndex].idMaterial = idMaterial;
-    materialDb[materialIndex].namaMaterial = namaMaterial;
-    materialDb[materialIndex].jenisMaterial = jenisMaterial;
+    material *newMaterial = &materialDb[materialIndex];
+
+    cout << setw(20) << left << "ID Material" << ": " << idBaru << endl;
+    newMaterial->idMaterial = idBaru;
+    newMaterial->namaMaterial = getNameMat("Nama Material Baru", mabelIndex, 100, 20);
+    newMaterial->jenisMaterial = getInput("Jenis Material Baru", 50, 20);
     materialIndex++;
     
-    cout << endl;
-    printLine('=', 50);
-    cout << "     [SUKSES] Material berhasil ditambahkan!" << endl;
-    printLine('=', 50);
+    printLine('-', 50);
+    showSuccess("Material berhasil ditambahkan!");
 }
-
+// Done
 void updateMaterial() {
-    cout << endl;
-    printLine('=', 50);
-    cout << "                   UPDATE MATERIAL                   " << endl;
-    printLine('=', 50);
+    Header("UPDATE MATERIAL", 53);
     
     if (materialIndex == 0) {
-        cout << "     [ERROR] Belum ada material untuk diupdate!" << endl;
+        showError("Data Material Kosong!");
         return;
     }
     
     readMaterial();
-    
-    cout << endl;
-    cout << "     ID Material yang akan diupdate : ";
-    string idCari;
-    getline(cin, idCari);
-    
-    int indexKetemu = -1;
-    for (int i = 0; i < materialIndex; i++) {
-        if (materialDb[i].idMaterial == idCari) {
-            indexKetemu = i;
-            break;
-        }
-    }
-    
-    if (indexKetemu == -1) {
-        cout << "     [ERROR] ID Material tidak ditemukan!" << endl;
-        return;
-    }
-    
-    cout << endl;
-    printLine('-', 50);
-    cout << "     Data Lama:" << endl;
-    cout << "       ID Material   : " << materialDb[indexKetemu].idMaterial << endl;
-    cout << "       Nama Material : " << materialDb[indexKetemu].namaMaterial << endl;
-    cout << "       Jenis Material: " << materialDb[indexKetemu].jenisMaterial << endl;
-    printLine('-', 50);
-    
-    cout << endl;
-    cout << "     Nama Baru (kosongkan jika tidak berubah): ";
-    string namaBaru;
-    getline(cin, namaBaru);
-    if (!namaBaru.empty()) {
-        materialDb[indexKetemu].namaMaterial = namaBaru;
-    }
-    
-    cout << "     Jenis Baru (kosongkan jika tidak berubah): ";
-    string jenisBaru;
-    getline(cin, jenisBaru);
-    if (!jenisBaru.empty()) {
-        materialDb[indexKetemu].jenisMaterial = jenisBaru;
-    }
-    
-    cout << endl;
-    printLine('=', 50);
-    cout << "     [SUKSES] Material berhasil diupdate!" << endl;
-    printLine('=', 50);
-}
 
+    string idCari = getInput("Input ID material", 50, 20);
+    int indexKetemu = -1;
+
+    for (int i = 0; i < materialIndex; i++) {
+        if (materialDb[i].idMaterial == idCari) {
+            indexKetemu = i;
+            break;
+        }
+    }
+    
+    if (indexKetemu == -1) {
+        showError("Material dengan ID " + idCari + " tidak ditemukan!");
+        return;
+    }
+    material *updateMaterial = &materialDb[indexKetemu];
+    string namaBaru = updateMaterial->namaMaterial;
+    string jenisBaru = updateMaterial->jenisMaterial;
+    
+    string pilihan;
+    while (true) {
+        clearScreen();
+        Header("DATA PRODUK SAAT INI", 50);
+        cout << setw(25) << left << "ID Material" << " : " << materialDb[indexKetemu].idMaterial << endl;
+        cout << setw(25) << left << "Nama Material" << " : " << namaBaru << endl;
+        cout << setw(25) << left << "Jenis Material" << " : "<< jenisBaru << endl;
+        menuUpdateMat();
+        getline(cin, pilihan);
+        
+        if (pilihan == "1") {
+            namaBaru = getNameMat("Nama Material Baru", materialIndex, 100, 20);
+        } 
+        else if (pilihan == "2") {
+            jenisBaru = getInput("Jenis Baru", 100, 15);
+        } 
+        else if (pilihan == "0") {
+            if (confirm("Hapus produk ini [Y/N]", 22)) {
+                updateMaterial->namaMaterial = namaBaru;
+                updateMaterial->jenisMaterial = jenisBaru;
+                printLine('-', 50);
+                showSuccess("Produk berhasil diupdate!");
+            } else {
+                showInfo("Update produk dibatalkan");
+            }
+            return;
+        } 
+        else {
+            showError("Pilihan tidak valid!");
+            pauseScreen();
+        }
+    }
+}
+// Done
 void deleteMaterial() {
-    cout << endl;
-    printLine('=', 50);
-    cout << "                   HAPUS MATERIAL                    " << endl;
-    printLine('=', 50);
+    Header("HAPUS MATERIAL", 53);
     
     if (materialIndex == 0) {
-        cout << "     [ERROR] Belum ada material untuk dihapus!" << endl;
+        showError("Data Material Kosong!");
         return;
     }
     
     readMaterial();
-    
-    cout << endl;
-    cout << "     ID Material yang akan dihapus : ";
-    string idCari;
-    getline(cin, idCari);
+
+    string idCari = getInput("Input ID material", 50, 20);
     
     int indexKetemu = -1;
     for (int i = 0; i < materialIndex; i++) {
@@ -190,112 +151,89 @@ void deleteMaterial() {
     }
     
     if (indexKetemu == -1) {
-        cout << "     [ERROR] ID Material tidak ditemukan!" << endl;
+        showError("Material dengan ID " + idCari + " tidak ditemukan!");
         return;
     }
     
     // Cek apakah material sedang digunakan
-    bool sedangDigunakan = false;
-    string digunakanPada = "";
+    bool inUse = false;
+    string used = "";
     for (int i = 0; i < mabelIndex; i++) {
         if (mabel[i].material.idMaterial == idCari) {
-            sedangDigunakan = true;
-            digunakanPada = mabel[i].namaProduk;
+            inUse = true;
+            used = mabel[i].namaProduk;
             break;
         }
     }
     
-    if (sedangDigunakan) {
-        cout << endl;
-        printLine('=', 50);
-        cout << "     [ERROR] Material sedang digunakan pada produk: " << digunakanPada << endl;
-        cout << "     [ERROR] Hapus produk terlebih dahulu!" << endl;
-        printLine('=', 50);
+    if (inUse) {
+        printLine('-', 53);
+        showError("Material sedang digunakan pada produk " + used );
+        showInfo("Hapus produk terlebih dahulu!");
         return;
     }
     
-    cout << endl;
-    printLine('-', 50);
-    cout << "     Data yang akan dihapus:" << endl;
-    cout << "       ID Material   : " << materialDb[indexKetemu].idMaterial << endl;
-    cout << "       Nama Material : " << materialDb[indexKetemu].namaMaterial << endl;
-    cout << "       Jenis Material: " << materialDb[indexKetemu].jenisMaterial << endl;
-    printLine('-', 50);
+    clearScreen();
+    Header("KONFIRMASI HAPUS MATERIAL", 50);
+    cout << setw(15) << left << "ID Material" << " : " << materialDb[indexKetemu].idMaterial << endl;
+    cout << setw(15) << left << "Nama Material" << " : " << materialDb[indexKetemu].namaMaterial << endl;
+    cout << setw(15) << left << "Jenis Material" << " : "<< materialDb[indexKetemu].jenisMaterial << endl;
+    printLine('=', 50);
     
-    cout << endl;
-    cout << "     Hapus material ini (y/t): ";
-    string konfirmasi;
-    getline(cin, konfirmasi);
-    
-    if (konfirmasi == "y" || konfirmasi == "Y") {
+
+    if (confirm("Hapus Material ini [Y/N]", 26)) {
         for (int i = indexKetemu; i < materialIndex - 1; i++) {
             materialDb[i] = materialDb[i + 1];
         }
         materialIndex--;
-        cout << endl;
-        printLine('=', 50);
-        cout << "     [SUKSES] Material berhasil dihapus!" << endl;
-        printLine('=', 50);
+        printLine('-', 50);
+        showSuccess("Material berhasil dihapus!");
     } else {
-        cout << endl;
-        printLine('=', 50);
-        cout << "     [INFO] Penghapusan dibatalkan" << endl;
-        printLine('=', 50);
+        showInfo("Penghapusan Material dibatalkan");
     }
 }
-
+// Done
 int pilihMaterial() {
     if (materialIndex == 0) {
-        showError("Belum ada material. Silakan tambah material terlebih dahulu!");
+        showError("Data Material Kosong!");
         return -1;
     }
     
     while (true) {
-        Header("PILIH MATERIAL", 50);
+        Header("PILIH MATERIAL", 62);
         cout << " " << setw(3) << left << "No" << " | "
-             << setw(12) << left << "ID Material" << " | "
-             << setw(22) << left << "Nama Material" << " | "
-             << setw(15) << left << "Jenis Material" << endl;
-        printLine('-', 50);
+            << setw(12) << left << "ID Material" << " | "
+            << setw(22) << left << "Nama Material" << " | "
+            << setw(15) << left << "Jenis Material" << endl;
+        printLine('-', 62);
 
         for (int i = 0; i < materialIndex; i++) {
             cout << " " << setw(3) << left << i+1 << " | "
-                 << setw(12) << left << materialDb[i].idMaterial << " | "
-                 << setw(22) << left << materialDb[i].namaMaterial << " | "
-                 << setw(15) << left << materialDb[i].jenisMaterial << endl;
+                << setw(12) << left << materialDb[i].idMaterial << " | "
+                << setw(22) << left << materialDb[i].namaMaterial << " | "
+                << setw(15) << left << materialDb[i].jenisMaterial << endl;
         }
         cout << " " << setw(3) << left << "0" << " | Batal" << endl;
-        printLine('-', 50);
+        printLine('-', 62);
         
-        int input = getInt("Pilih material (nomor)", 15);
+        int input = getInt("Pilih material (nomor)", 22);
         
         if (input == 0) {
             return -1;
-        }
-        if (input >= 1 && input <= materialIndex) {
+        } else if (input >= 1 && input <= materialIndex) {
             return input - 1;
+        } else {
+            showError("Nomor tidak valid. Silakan coba lagi.");
         }
-        cout << "[ERROR] Nomor tidak valid. Silakan coba lagi." << endl;
     }
 }
-
+// Done
 void menuMaterial() {
     string pilihan;
     while (true) {
         clearScreen();
         cout << endl;
-        printLine('=', 50);
-        cout << "                   MENU MATERIAL                    " << endl;
-        printLine('=', 50);
-        cout << endl;
-        cout << "     1. Lihat Material" << endl;
-        cout << "     2. Tambah Material" << endl;
-        cout << "     3. Update Material" << endl;
-        cout << "     4. Hapus Material" << endl;
-        cout << "     0. Kembali" << endl;
-        cout << endl;
-        printLine('-', 50);
-        cout << "     Masukkan Pilihan: ";
+        menuMat();
         getline(cin, pilihan);
         
         if (pilihan == "1") {
@@ -317,7 +255,7 @@ void menuMaterial() {
         } else if (pilihan == "0") {
             break;
         } else {
-            cout << endl << "     [ERROR] Pilihan tidak valid!" << endl;
+            showError("Pilihan tidak valid!");
             pauseScreen();
         }
     }

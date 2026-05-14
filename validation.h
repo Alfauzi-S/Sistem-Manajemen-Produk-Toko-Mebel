@@ -124,6 +124,55 @@ string getNamePrd(const string& prompt, int exclude, int maxLen, int space) {
     }
 }
 // Done
+string getNameMat(const string& prompt, int exclude, int maxLen, int space) {
+    string input;
+    while (true) {
+        try {
+            cout << setw(space) << left << prompt << ": ";
+            getline(cin, input);
+            
+            if (input.empty()) {
+                throw invalid_argument("Input tidak boleh kosong!");
+            }
+            
+            bool onlySpaces = true;
+            for (char c : input) {
+                if (!isspace(c)) {
+                    onlySpaces = false;
+                    break;
+                }
+            }
+            if (onlySpaces) {
+                throw invalid_argument("Input tidak boleh hanya spasi!");
+            }
+            
+            if (input.length() > maxLen) {
+                throw invalid_argument("Maksimal " + to_string(maxLen) + " karakter!");
+            }
+            
+            bool duplicate = false;
+            for (int i = 0; i < materialIndex; i++) {
+                if (materialDb[i].namaMaterial == input && i != exclude) {
+                    duplicate = true;
+                    break;
+                }
+            }
+            
+            if (duplicate) {
+                throw invalid_argument("Nama Produk sudah terdaftar!");
+            }
+            
+            return input;
+        }
+        catch (const invalid_argument& e) {
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
+        }
+        catch (const exception& e) {
+            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
+        }
+    }
+}
+// Done
 string getPassword(const string& prompt, int minLen, int maxLen , int space) {
     string input;
     while (true) {
@@ -338,12 +387,12 @@ int getIntNotZero(const string& prompt, int space) {
         }
     }
 }
-
+// Done
 bool confirm(const string& prompt, int space) {
     string input;
     while (true) {
         try {
-            cout << setw(space) << left << prompt << " : ";
+            cout << setw(space) << left << prompt << ": ";
             getline(cin, input);
             
             if (input == "y" || input == "Y") return true;
@@ -351,10 +400,10 @@ bool confirm(const string& prompt, int space) {
             throw invalid_argument("Masukkan y atau n!");
         }
         catch (const invalid_argument& e) {
-            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
+            cout << setw(space) << left << "  " << "[ERROR] " << e.what() << endl;
         }
         catch (const exception& e) {
-            cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;
+            cout << setw(space) << left << "  " << "[ERROR] " << e.what() << endl;
         }
     }
 }
