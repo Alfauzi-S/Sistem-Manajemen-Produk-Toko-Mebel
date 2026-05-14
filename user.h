@@ -1,546 +1,446 @@
-// #ifndef USER_H
-// #define USER_H
+#ifndef USER_H
+#define USER_H
 
-// #include "library.h"
-// #include "struct.h"
-// #include "validation.h"
-// #include "menu.h"
-// #include "crud.h"
-// #include "material.h"
+#include "library.h"
+#include "struct.h"
+#include "validation.h"
+#include "menu.h"
+#include "crud.h"
+#include "material.h"
+// Done
+void updateUser(int idx) {
+    if (userIndex == -1){
+        showError("Data User Kosong!");
+        return;
+    }
 
-// void readUser(string name) {
-//     cout << endl;
-//     printLine('=', 50);
-//     cout << "                 PROFIL PENGGUNA                  " << endl;
-//     printLine('=', 50);
-    
-//     for (int i = 0; i < userIndex; i++) {
-//         if (user[i].nama == name) {
-//             cout << "     Nama      : " << user[i].nama << endl;
-//             cout << "     Email     : " << user[i].email << endl;
-//             cout << "     Alamat    : " << user[i].alamat.jalan << ", " 
-//                  << user[i].alamat.kota << ", " << user[i].alamat.provinsi << endl;
-//             cout << "     Saldo     : Rp " << user[i].saldo << endl;
-//             printLine('=', 50);
-//             return;
-//         }
-//     }
-// }
+    pengguna *updateUser = &user[idx];
+    string namaBaru = updateUser->nama;
+    string emailBaru = updateUser->email;
+    string jalanBaru = updateUser->alamat.jalan;
+    string kotaBaru = updateUser->alamat.kota;
+    string provinsiBaru = updateUser->alamat.provinsi;
 
-// void readUserandUpdate(string &currentUser) {
-//     int indexKetemu = -1;
-//     for (int i = 0; i < userIndex; i++) {
-//         if (user[i].nama == currentUser) {
-//             indexKetemu = i;
-//             break;
-//         }
-//     }
-
-//     if (indexKetemu == -1) {
-//         cout << endl << "     [ERROR] User " << currentUser << " tidak ditemukan!" << endl;
-//         return;
-//     }
-    
-//     string pilihanUtama;
-//     while (true) {
-//         clearScreen();
-//         readUser(currentUser);
-//         cout << endl;
-//         cout << "     1. Update Data User" << endl;
-//         cout << "     0. Exit" << endl;
-//         cout << endl;
-//         printLine('-', 50);
-//         cout << "     Masukan Pilihan: ";
-//         getline(cin, pilihanUtama);
+    while (true) {
+        clearScreen();
+        Header("UPDATE PROFIL", 55);
+        cout << setw(15) << left << "Nama" << " : " << namaBaru << endl;
+        cout << setw(15) << left << "Email" << " : " << emailBaru << endl;
+        cout << setw(15) << left << "Alamat" << " : " << jalanBaru << ", " << kotaBaru << ", " << provinsiBaru << endl;
+        printLine('=', 55);
         
-//         if (pilihanUtama == "1") {
-//             string namaBaru = user[indexKetemu].nama;
-//             string emailBaru = user[indexKetemu].email;
-//             string jalanBaru = user[indexKetemu].alamat.jalan;
-//             string kotaBaru = user[indexKetemu].alamat.kota;
-//             string provinsiBaru = user[indexKetemu].alamat.provinsi;
-            
-//             while (true) {
-//                 clearScreen();
-//                 cout << endl;
-//                 printLine('=', 50);
-//                 cout << "                 UPDATE PROFIL                  " << endl;
-//                 printLine('=', 50);
-//                 cout << "     Nama      : " << namaBaru << endl;
-//                 cout << "     Email     : " << emailBaru << endl;
-//                 cout << "     Alamat    : " << jalanBaru << ", " << kotaBaru << ", " << provinsiBaru << endl;
-//                 printLine('=', 50);
-//                 cout << endl;
-//                 cout << "     1. Ubah Nama" << endl;
-//                 cout << "     2. Ubah Email" << endl;
-//                 cout << "     3. Ubah Jalan" << endl;
-//                 cout << "     4. Ubah Kota" << endl;
-//                 cout << "     5. Ubah Provinsi" << endl;
-//                 cout << "     0. Simpan & Keluar" << endl;
-//                 cout << endl;
-//                 printLine('-', 50);
-//                 cout << "     Masukan Pilihan: ";
+        string pilihanUpdate;
+        menuUpdateDataUser();
+        getline(cin, pilihanUpdate);
+        
+        if (pilihanUpdate == "1") {
+            namaBaru = getName("Nama Baru", userIndex, 100, 15);
+        } else if (pilihanUpdate == "2") {
+            emailBaru = getEmail("Email Baru", userIndex, 15);
+        } else if (pilihanUpdate == "3") {
+            jalanBaru = getInput("Jalan Baru", 100, 15);
+        } else if (pilihanUpdate == "4") {
+            kotaBaru = getInput("Kota Baru", 100, 15);
+        } else if (pilihanUpdate == "5") {
+            provinsiBaru =getInput("Provinsi Baru", 100, 15);
+        } else if (pilihanUpdate == "0") {
+            if (confirm("Hapus produk ini [Y/N]", 22)) {
+                updateUser->nama = namaBaru;
+                updateUser->email = emailBaru;
+                updateUser->alamat.jalan = jalanBaru;
+                updateUser->alamat.kota = kotaBaru;
+                updateUser->alamat.provinsi = provinsiBaru;
+                printLine('-', 55);
+                showSuccess("Data user berhasil diupdate!");
+            } else {
+                printLine('-',55);
+                showInfo("Update data user dibatalkan");
+            }
+            return;
+        } else {
+            showError("Pilihan tidak valid!");
+            pauseScreen();
+        }
+    }
+}
+// Done
+void readUser(string &currentUser) {
+    if (userIndex == -1){
+        showError("Data User Kosong!");
+        return;
+    }
+    
+    int indexKetemu = -1;
+    for (int i = 0; i < userIndex; i++) {
+        if (user[i].nama == currentUser) {
+            indexKetemu = i;
+            break;
+        }
+    }
+
+    if (indexKetemu == -1) {
+        showError("User " + currentUser + " tidak ditemukan!");
+        return;
+    }
+
+    string pilihan;
+    while(true) {
+        clearScreen();
+        Header("PROFIL PENGGUNA", 55);
+        cout << setw(15) << left << "Nama" << " : " << user[indexKetemu].nama << endl;
+        cout << setw(15) << left << "Email" << " : " << user[indexKetemu].email << endl;
+        cout << setw(15) << left << "Alamat" << " : " << user[indexKetemu].alamat.jalan << ", " << user[indexKetemu].alamat.kota << ", " << user[indexKetemu].alamat.provinsi << endl;
+        cout << setw(15) << left << "Saldo" << " : RP " << user[indexKetemu].saldo << endl;
+        printLine('=', 55);
+        menuUpdateUser();
+        getline(cin, pilihan);
+        if (pilihan == "1") {
+            updateUser(indexKetemu);
+        } else if (pilihan == "0") {
+            break;
+        } else {
+            showError("Pilihan tidak valid!");
+            pauseScreen();
+        }
+    }
+}
+// Done
+void topup(string &currentUser) {
+    if (userIndex == -1){
+        showError("Data User Kosong!");
+        return;
+    }
+    
+    int indexKetemu = -1;
+    for (int i = 0; i < userIndex; i++) {
+        if (user[i].nama == currentUser) {
+            indexKetemu = i;
+            break;
+        }
+    }
+
+    if (indexKetemu == -1) {
+        showError("User " + currentUser + " tidak ditemukan!");
+        return;
+    }
+
+    pengguna *topupUser = &user[indexKetemu];
+    string pilihan;
+    while (true) {
+        clearScreen();
+        Header("TOP UP SALDO", 50);
+        cout << setw(15) << left << "Nama" << " : " << topupUser->nama << endl;
+        cout << setw(15) << left << "Saldo" << " : Rp " << topupUser->saldo << endl;
+        printLine('=', 50);
+        menuTopup();
+        getline(cin, pilihan);
+        if (pilihan == "1") {
+            string inPassword;
+            cout << setw(15) << left << "Password" << ": ";
+            getline(cin, inPassword);
+            if (inPassword == topupUser->password) {
+                showInfo("Password Benar");
+                printLine('-', 50);
+                int inNominal = getIntNotZero("Nominal Top Up", 15);
+                if (inNominal > 0) {
+                    topupUser->saldo = topupUser->saldo + inNominal;
+                    printLine('-', 50);
+                    showSuccess("Top up berhasil!");
+                    showInfo("Saldo Baru: Rp" + to_string(topupUser->saldo));
+                    pauseScreen();
+                }
+            } else {
+                showError("Password salah!");
+                pauseScreen();
+            }
+        } else if (pilihan == "0") {
+            return;
+        } else {
+            showError("Pilihan tidak valid!");
+            pauseScreen();
+        }
+    }
+    
+}
+// Done
+void buy(string &currentUser) {
+    if (mabelIndex == 0) {
+        showError("Data Produk Kosong!");
+        return;
+    };
+
+    read();
+
+    string idCari = getInput("Input ID produk", 50, 20);
+    int indexKetemu = -1;
+
+    for (int i = 0; i < mabelIndex; i++) {
+        if (mabel[i].idProduk == idCari) {
+            indexKetemu = i;
+            break;
+        }
+    }
+    
+    if (indexKetemu == -1) {
+        showError("Produk dengan ID " + idCari + " tidak ditemukan!");
+        return;
+    }
+    
+    int inJumlah = 1;
+    string pilihan;
+    while (true) {
+        clearScreen();
+        Header("PEMBELIAN PRODUK", 76);
+        cout << " " << setw(8) << left << "ID" << " | "
+            << setw(22) << left << "Nama Produk" << " | "
+            << setw(6) << left << "Stock" << " | "
+            << setw(15) << "Harga" << " | "
+            << setw(15) << left << "Jumlah Beli" << endl;
+        printLine('-', 76);
+        cout << " " << setw(8) << left << mabel[indexKetemu].idProduk << " | "
+            << setw(22) << left << mabel[indexKetemu].namaProduk << " | "
+            << setw(6) << right << mabel[indexKetemu].stock << " | "
+            << "Rp" << setw(13) << right << mabel[indexKetemu].harga << " | "
+            << setw(15) << left << inJumlah << endl;
+        printLine('-', 76);
+        menuJumlah();
+        getline(cin, pilihan);
+        if (pilihan == "1") {
+            int temp = getIntNotZero("Jumlah Beli", 15);
+            if (temp > mabel[indexKetemu].stock) {
+                showError("Jumlah beli melebihi stok yang tersedia : " + to_string(mabel[indexKetemu].stock));
+                pauseScreen();
+            } else {
+                inJumlah = temp;
+            }
+        } else if (pilihan == "0") {
+            if (confirm("Tambahkan Produk ke Keranjang [Y/N]", 35)) {
+                bool sudahAda = false;
+                keranjang *addKeranjang = &keranjangUser[keranjangIndex];
+                for (int i = 0; i < keranjangIndex; i++) {
+                    if (keranjangUser[i].nama == currentUser && keranjangUser[i].idProduk == mabel[indexKetemu].idProduk) {
+                        keranjangUser[i].jumlah = inJumlah;
+                        sudahAda = true;
+                        printLine('-', 76);
+                        showSuccess("Berhasil memperbarui produk di keranjang!");
+                        break;
+                    }
+                }
                 
-//                 string pilihanUpdate;
-//                 getline(cin, pilihanUpdate);
-                
-//                 if (pilihanUpdate == "1") {
-//                     cout << endl;
-//                     namaBaru = getValidatedName("     Nama Baru", indexKetemu);
-//                 } 
-//                 else if (pilihanUpdate == "2") {
-//                     cout << endl;
-//                     emailBaru = getValidatedEmail("     Email Baru", indexKetemu);
-//                 } 
-//                 else if (pilihanUpdate == "3") {
-//                     cout << "     Jalan Baru : ";
-//                     getline(cin, jalanBaru);
-//                     if (jalanBaru.empty()) {
-//                         cout << "     [ERROR] Jalan tidak boleh kosong!" << endl;
-//                         jalanBaru = user[indexKetemu].alamat.jalan;
-//                         pauseScreen();
-//                     }
-//                 } 
-//                 else if (pilihanUpdate == "4") {
-//                     cout << "     Kota Baru : ";
-//                     getline(cin, kotaBaru);
-//                     if (kotaBaru.empty()) {
-//                         cout << "     [ERROR] Kota tidak boleh kosong!" << endl;
-//                         kotaBaru = user[indexKetemu].alamat.kota;
-//                         pauseScreen();
-//                     }
-//                 } 
-//                 else if (pilihanUpdate == "5") {
-//                     cout << "     Provinsi Baru : ";
-//                     getline(cin, provinsiBaru);
-//                     if (provinsiBaru.empty()) {
-//                         cout << "     [ERROR] Provinsi tidak boleh kosong!" << endl;
-//                         provinsiBaru = user[indexKetemu].alamat.provinsi;
-//                         pauseScreen();
-//                     }
-//                 } 
-//                 else if (pilihanUpdate == "0") {
-//                     cout << endl;
-//                     if (confirm("     Simpan perubahan")) {
-//                         user[indexKetemu].nama = namaBaru;
-//                         user[indexKetemu].email = emailBaru;
-//                         user[indexKetemu].alamat.jalan = jalanBaru;
-//                         user[indexKetemu].alamat.kota = kotaBaru;
-//                         user[indexKetemu].alamat.provinsi = provinsiBaru;
-//                         currentUser = user[indexKetemu].nama;
-//                         cout << endl;
-//                         printLine('=', 50);
-//                         cout << "     [SUKSES] Data berhasil diupdate!" << endl;
-//                         printLine('=', 50);
-//                     } else {
-//                         cout << endl;
-//                         printLine('=', 50);
-//                         cout << "     [INFO] Update data dibatalkan" << endl;
-//                         printLine('=', 50);
-//                     }
-//                     break;
-//                 } 
-//                 else {
-//                     cout << endl << "     [ERROR] Pilihan tidak valid!" << endl;
-//                     pauseScreen();
-//                 }
-//             }
-//         } 
-//         else if (pilihanUtama == "0") {
-//             break;
-//         } 
-//         else {
-//             cout << endl << "     [ERROR] Pilihan tidak valid!" << endl;
-//             pauseScreen();
-//         }
-//     }
-// }
-
-// void topup(string name) {
-//     int indexKetemu = -1;
-//     for (int i = 0; i < userIndex; i++) {
-//         if (user[i].nama == name) {
-//             indexKetemu = i;
-//             break;
-//         }
-//     }
-
-//     if (indexKetemu == -1) {
-//         cout << endl << "     [ERROR] User tidak ditemukan!" << endl;
-//         return;
-//     }
-
-//     cout << endl;
-//     printLine('=', 50);
-//     cout << "                  TOP UP SALDO                   " << endl;
-//     printLine('=', 50);
-//     cout << "     Nama          : " << user[indexKetemu].nama << endl;
-//     cout << "     Saldo Saat Ini: Rp " << user[indexKetemu].saldo << endl;
-//     printLine('=', 50);
+                if (!sudahAda) {
+                    addKeranjang->nama = currentUser;
+                    addKeranjang->idProduk = mabel[indexKetemu].idProduk;
+                    addKeranjang->namaProduk = mabel[indexKetemu].namaProduk;
+                    addKeranjang->harga = mabel[indexKetemu].harga;
+                    addKeranjang->jumlah = inJumlah;
+                    keranjangIndex++;
+                    printLine('-', 76);
+                    showSuccess("Produk ditambahkan ke keranjang!");
+                }
+                return;
+            } else {
+                printLine('-', 76);
+                showInfo("Penambahan produk dibatalkan");
+                return;
+            }
+        } else {
+            showError("Pilihan tidak valid!");
+            pauseScreen();
+        }
+    }
+}
+// Done
+void checkout(string &currentUser) {
+    int indexKetemu = -1;
+    for (int i = 0; i < userIndex; i++) {
+        if (user[i].nama == currentUser) {
+            indexKetemu = i;
+            break;
+        }
+    }
     
-//     cout << endl;
-//     cout << "     1. Top Up" << endl;
-//     cout << "     0. Exit" << endl;
-//     cout << endl;
-//     printLine('-', 50);
-//     cout << "     Masukan Pilihan: ";
-
-//     string pilihan;
-//     getline(cin, pilihan);
+    if (indexKetemu == -1) {
+        showError("User tidak ditemukan!");
+        return;
+    }
     
-//     if (pilihan == "1") {
-//         string inPassword;
-//         cout << "     Password : ";
-//         getline(cin, inPassword);
-        
-//         if (inPassword == user[indexKetemu].password) {
-//             int inNominal = getPositiveInt("     Nominal Top Up");
-//             if (inNominal > 0) {
-//                 user[indexKetemu].saldo = user[indexKetemu].saldo + inNominal;
-//                 cout << endl;
-//                 printLine('=', 50);
-//                 cout << "     [SUKSES] Top up berhasil!" << endl;
-//                 cout << "     Saldo Baru: Rp " << user[indexKetemu].saldo << endl;
-//                 printLine('=', 50);
-//             }
-//         } else {
-//             cout << endl << "     [ERROR] Password salah!" << endl;
-//         }
-//     } else if (pilihan == "0") {
-//         return;
-//     } else {
-//         cout << endl << "     [ERROR] Pilihan tidak valid!" << endl;
-//     }
-// }
+    // Cek stok
+    for (int i = 0; i < keranjangIndex; i++) {
+        if (keranjangUser[i].nama == currentUser) {
+            for (int j = 0; j < mabelIndex; j++) {
+                if (mabel[j].idProduk == keranjangUser[i].idProduk) {
+                    if (mabel[j].stock < keranjangUser[i].jumlah) {
+                        showError("Stok " + mabel[j].namaProduk + "tidak cukup, stock yang tersedia : " + to_string(mabel[j].stock));
+                        return;
+                    }
+                }
+            }
+        }
+    }
 
-// void buy(string name) {
-//     if (mabelIndex == 0) {
-//         cout << endl << "     [ERROR] Data Produk Kosong!" << endl;
-//         return;
-//     };
+    int totalBelanja = 0;
+    for (int i = 0; i < keranjangIndex; i++) {
+        if (keranjangUser[i].nama == currentUser) {
+            totalBelanja += keranjangUser[i].harga * keranjangUser[i].jumlah;
+        }
+    }
+    
+    if (totalBelanja == 0) {
+        showError("Keranjang kosong!");
+        return;
+    }
 
-//     read();
-    
-//     int idCari = getPositiveInt("     ID Produk yang ingin dibeli");
-//     int indexKetemu = -1;
-    
-//     for (int i = 0; i < mabelIndex; i++) {
-//         if (mabel[i].idProduk == idCari) {
-//             indexKetemu = i;
-//             break;
-//         }
-//     }
+    pengguna *checkoutUser = &user[indexKetemu];
 
-//     if (indexKetemu == -1) {
-//         cout << endl << "     [ERROR] Produk dengan ID " << idCari << " tidak ditemukan!" << endl;
-//         return;
-//     }
-    
-//     int inJumlah = 0;
-//     while (true) {
-//         clearScreen();
-//         cout << endl;
-//         printLine('=', 70);
-//         cout << "                    PEMBELIAN PRODUK                     " << endl;
-//         printLine('=', 70);
-        
-//         cout << " ID   | Nama Produk              | Harga      | Jumlah | Stok" << endl;
-//         printLine('-', 70);
-        
-//         // Format output
-//         cout << " " << setw(3) << right << mabel[indexKetemu].idProduk << " | ";
-//         string nama = mabel[indexKetemu].namaProduk;
-//         if (nama.length() > 22) nama = nama.substr(0, 19) + "...";
-//         cout << setw(22) << left << nama << " | ";
-//         cout << "Rp" << setw(8) << right << mabel[indexKetemu].harga << " | ";
-//         cout << setw(6) << right << inJumlah << " | ";
-//         cout << setw(4) << right << mabel[indexKetemu].stock << endl;
-        
-//         printLine('=', 70);
-//         cout << endl;
-//         cout << "     1. Ubah Jumlah" << endl;
-//         cout << "     0. Tambah ke Keranjang" << endl;
-//         cout << endl;
-//         printLine('-', 70);
-//         cout << "     Masukan Pilihan: ";
-        
-//         string pilihan;
-//         getline(cin, pilihan);
-        
-//         if (pilihan == "1") {
-//             while (true) {
-//                 int temp = getPositiveInt("     Jumlah Beli");
-//                 if (temp > mabel[indexKetemu].stock) {
-//                     cout << "     [ERROR] Jumlah melebihi stok! Tersedia: " << mabel[indexKetemu].stock << endl;
-//                 } else if (temp <= 0) {
-//                     cout << "     [ERROR] Jumlah harus lebih dari 0!" << endl;
-//                 } else {
-//                     inJumlah = temp;
-//                     break;
-//                 }
-//             }
-//         } else if (pilihan == "0") {
-//             if (inJumlah == 0) {
-//                 cout << endl << "     [ERROR] Belum memilih jumlah!" << endl;
-//                 pauseScreen();
-//                 return;
-//             }
+    Header("RINGKASAN PEMBAYARAN ", 50);
+    cout << setw(20) << left << "Nama Pelanggan" << " : " << currentUser << endl;
+    cout << setw(20) << left << "Total Tagihan" << " : Rp " << totalBelanja << endl;
+    cout << setw(20) << left << "Saldo Anda" << " : Rp " << checkoutUser->saldo << endl;
+    printLine('=', 50);
+
+    if (confirm("Bayar [Y/N]", 15)) {    
+        string inPassword;
+        cout << setw(15) << left << "Password" << ": ";
+        getline(cin, inPassword);
+        if (checkoutUser->password == inPassword) {
+            if (checkoutUser->saldo < totalBelanja) {
+                showError("Saldo tidak mencukupi. Silakan Top Up!");
+                return;
+            }
             
-//             cout << endl;
-//             if (confirm("     Tambahkan Produk ke Keranjang")) {
-//                 bool sudahAda = false;
-//                 for (int i = 0; i < keranjangIndex; i++) {
-//                     if (keranjangUser[i].nama == name && keranjangUser[i].idProduk == mabel[indexKetemu].idProduk) {
-//                         keranjangUser[i].jumlah = inJumlah;
-//                         sudahAda = true;
-//                         cout << endl;
-//                         printLine('=', 50);
-//                         cout << "     [SUKSES] Berhasil memperbarui produk di keranjang!" << endl;
-//                         printLine('=', 50);
-//                         break;
-//                     }
-//                 }
-                
-//                 if (!sudahAda) {
-//                     keranjangUser[keranjangIndex].nama = name;
-//                     keranjangUser[keranjangIndex].idProduk = mabel[indexKetemu].idProduk;
-//                     keranjangUser[keranjangIndex].namaProduk = mabel[indexKetemu].namaProduk;
-//                     keranjangUser[keranjangIndex].harga = mabel[indexKetemu].harga;
-//                     keranjangUser[keranjangIndex].jumlah = inJumlah;
-//                     keranjangIndex++;
-//                     cout << endl;
-//                     printLine('=', 50);
-//                     cout << "     [SUKSES] Produk ditambahkan ke keranjang!" << endl;
-//                     printLine('=', 50);
-//                 }
-//                 return;
-//             } else {
-//                 cout << endl;
-//                 printLine('=', 50);
-//                 cout << "     [INFO] Penambahan produk dibatalkan" << endl;
-//                 printLine('=', 50);
-//                 return;
-//             }
-//         } else {
-//             cout << endl << "     [ERROR] Pilihan tidak valid!" << endl;
-//             pauseScreen();
-//         }
-//     }
-// }
-
-// void checkout(string name) {
-//     int userIdx = -1;
-//     for (int i = 0; i < userIndex; i++) {
-//         if (user[i].nama == name) {
-//             userIdx = i;
-//             break;
-//         }
-//     }
-    
-//     if (userIdx == -1) {
-//         cout << endl << "     [ERROR] User tidak ditemukan!" << endl;
-//         return;
-//     }
-    
-//     // Cek stok
-//     for (int i = 0; i < keranjangIndex; i++) {
-//         if (keranjangUser[i].nama == name) {
-//             for (int j = 0; j < mabelIndex; j++) {
-//                 if (mabel[j].idProduk == keranjangUser[i].idProduk) {
-//                     if (mabel[j].stock < keranjangUser[i].jumlah) {
-//                         cout << endl << "     [ERROR] Stok " << mabel[j].namaProduk 
-//                              << " tidak cukup (Sisa: " << mabel[j].stock << ")" << endl;
-//                         return;
-//                     }
-//                 }
-//             }
-//         }
-//     }
-
-//     int totalBelanja = 0;
-//     for (int i = 0; i < keranjangIndex; i++) {
-//         if (keranjangUser[i].nama == name) {
-//             totalBelanja = totalBelanja + (keranjangUser[i].harga * keranjangUser[i].jumlah);
-//         }
-//     }
-    
-//     if (totalBelanja == 0) {
-//         cout << endl << "     [ERROR] Keranjang kosong!" << endl;
-//         return;
-//     }
-
-//     cout << endl;
-//     printLine('=', 50);
-//     cout << "               RINGKASAN PEMBAYARAN               " << endl;
-//     printLine('=', 50);
-//     cout << "     Nama Pelanggan : " << name << endl;
-//     cout << "     Total Tagihan  : Rp " << totalBelanja << endl;
-//     cout << "     Saldo Anda     : Rp " << user[userIdx].saldo << endl;
-//     printLine('=', 50);
-
-//     if (confirm("     Bayar")) {    
-//         string inPassword;
-//         cout << "     Password : ";
-//         getline(cin, inPassword);
-        
-//         if (user[userIdx].password == inPassword) {
-//             if (user[userIdx].saldo < totalBelanja) {
-//                 cout << endl << "     [ERROR] Saldo tidak mencukupi. Silakan Top Up!" << endl;
-//                 return;
-//             }
+            // Kurangi stok
+            for (int i = 0; i < keranjangIndex; i++) {
+                if (keranjangUser[i].nama == currentUser) {
+                    for (int j = 0; j < mabelIndex; j++) {
+                        if (mabel[j].idProduk == keranjangUser[i].idProduk) {
+                            mabel[j].stock = mabel[j].stock - keranjangUser[i].jumlah;
+                            break;
+                        }
+                    }
+                }
+            }
             
-//             // Kurangi stok
-//             for (int i = 0; i < keranjangIndex; i++) {
-//                 if (keranjangUser[i].nama == name) {
-//                     for (int j = 0; j < mabelIndex; j++) {
-//                         if (mabel[j].idProduk == keranjangUser[i].idProduk) {
-//                             mabel[j].stock = mabel[j].stock - keranjangUser[i].jumlah;
-//                             break;
-//                         }
-//                     }
-//                 }
-//             }
-            
-//             // Kurangi saldo
-//             user[userIdx].saldo = user[userIdx].saldo - totalBelanja;
+            checkoutUser->saldo -= totalBelanja;
     
-//             // Hapus keranjang user
-//             int j = 0;
-//             for (int i = 0; i < keranjangIndex; i++) {
-//                 if (keranjangUser[i].nama != name) {
-//                     keranjangUser[j] = keranjangUser[i];
-//                     j++;
-//                 }
-//             }
-//             keranjangIndex = j;
-    
-//             cout << endl;
-//             printLine('-', 50);
-//             cout << "     [SUKSES] PEMBAYARAN BERHASIL!" << endl;
-//             cout << "     Sisa Saldo : Rp " << user[userIdx].saldo << endl;
-//             cout << "     Terima kasih telah berbelanja." << endl;
-//             printLine('=', 50);
-//         } else {
-//             cout << endl << "     [ERROR] Password salah!" << endl;
-//         }
-//     } else {
-//         cout << endl << "     [INFO] Checkout dibatalkan" << endl;
-//     }
-// }
+            // Hapus keranjang user
+            int j = 0;
+            for (int i = 0; i < keranjangIndex; i++) {
+                if (keranjangUser[i].nama != currentUser) {
+                    keranjangUser[j] = keranjangUser[i];
+                    j++;
+                }
+            }
+            keranjangIndex = j;
 
-// void cart(string name) {
-//     bool adaItem = false;
-//     for (int i = 0; i < keranjangIndex; i++) {
-//         if (keranjangUser[i].nama == name) {
-//             adaItem = true;
-//             break;
-//         }
-//     }
-    
-//     if (!adaItem) {
-//         cout << endl << "     [ERROR] Keranjang Kosong!" << endl;
-//         return;
-//     }
-    
-//     while (true) {
-//         clearScreen();
-//         cout << endl;
-//         printLine('=', 80);
-//         cout << "                     KERANJANG BELANJA                      " << endl;
-//         printLine('=', 80);
-//         cout << " ID    | Nama Produk           | Harga      | Jumlah | Sub Total" << endl;
-//         printLine('-', 80);
-        
-//         int totalBelanja = 0;
-//         for (int i = 0; i < keranjangIndex; i++) {
-//             if (keranjangUser[i].nama == name) {
-//                 int subtotal = keranjangUser[i].harga * keranjangUser[i].jumlah;
-//                 totalBelanja = totalBelanja + subtotal;
-                
-//                 cout << " " << setw(4) << right << keranjangUser[i].idProduk << " | ";
-//                 string nama = keranjangUser[i].namaProduk;
-//                 if (nama.length() > 18) nama = nama.substr(0, 15) + "...";
-//                 cout << setw(18) << left << nama << " | ";
-//                 cout << "Rp" << setw(8) << right << keranjangUser[i].harga << " | ";
-//                 cout << setw(6) << right << keranjangUser[i].jumlah << " | ";
-//                 cout << "Rp" << setw(9) << right << subtotal << endl;
-//             }
-//         }
-//         printLine('-', 80);
-//         cout << "     Total Belanja: Rp " << totalBelanja << endl;
-//         printLine('=', 80);
-        
-//         cout << endl;
-//         cout << "     1. Checkout" << endl;
-//         cout << "     2. Update Jumlah" << endl;
-//         cout << "     3. Hapus Item" << endl;
-//         cout << "     0. Kembali" << endl;
-//         cout << endl;
-//         printLine('-', 80);
-//         cout << "     Masukan Pilihan: ";
-        
-//         string pilihan;
-//         getline(cin, pilihan);
-        
-//         if (pilihan == "1") {
-//             checkout(name);
-//             if (confirm("\n     Kembali ke menu utama")) {
-//                 return;
-//             }
-//         } else if (pilihan == "2") {
-//             int idUpdate = getPositiveInt("     ID Produk yang ingin diubah");
-//             bool ditemukan = false;
-//             for (int i = 0; i < keranjangIndex; i++) {
-//                 if (keranjangUser[i].nama == name && keranjangUser[i].idProduk == idUpdate) {
-//                     ditemukan = true;
-//                     int stok = 0;
-//                     for (int j = 0; j < mabelIndex; j++) {
-//                         if (mabel[j].idProduk == idUpdate) {
-//                             stok = mabel[j].stock;
-//                             break;
-//                         }
-//                     }
-//                     int newJml = getPositiveInt("     Jumlah Baru");
-//                     if (newJml <= stok && newJml > 0) {
-//                         keranjangUser[i].jumlah = newJml;
-//                         cout << endl << "     [SUKSES] Jumlah berhasil diupdate!" << endl;
-//                     } else {
-//                         cout << endl << "     [ERROR] Jumlah tidak valid! Stok tersedia: " << stok << endl;
-//                     }
-//                     break;
-//                 }
-//             }
-//             if (!ditemukan) {
-//                 cout << endl << "     [ERROR] Produk dengan ID " << idUpdate << " tidak ditemukan di keranjang!" << endl;
-//             }
-//             pauseScreen();
-//         } else if (pilihan == "3") {
-//             int idDelete = getPositiveInt("     ID Produk yang ingin dihapus");
-//             bool ditemukan = false;
-//             for (int i = 0; i < keranjangIndex; i++) {
-//                 if (keranjangUser[i].nama == name && keranjangUser[i].idProduk == idDelete) {
-//                     ditemukan = true;
-//                     if (confirm("     Hapus item ini dari keranjang")) {
-//                         for (int j = i; j < keranjangIndex - 1; j++) {
-//                             keranjangUser[j] = keranjangUser[j + 1];
-//                         }
-//                         keranjangIndex--;
-//                         cout << endl << "     [SUKSES] Item berhasil dihapus dari keranjang!" << endl;
-//                     }
-//                     break;
-//                 }
-//             }
-//             if (!ditemukan) {
-//                 cout << endl << "     [ERROR] Produk dengan ID " << idDelete << " tidak ditemukan di keranjang!" << endl;
-//             }
-//             pauseScreen();
-//         } else if (pilihan == "0") {
-//             break;
-//         } else {
-//             cout << endl << "     [ERROR] Pilihan tidak valid!" << endl;
-//             pauseScreen();
-//         }
-//     }
-// }
+            printLine('-', 50);
+            showSuccess("PEMBAYARAN BERHASIL!");
+            showInfo("Sisa Saldo : Rp " + to_string(checkoutUser->saldo));
+            cout << "Terima kasih telah berbelanja." << endl;
+        } else {
+            showError("Password salah!");
+        }
+    } else {
+        showInfo("Checkout dibatalkan");
+    }
+}
 
-// #endif
+void cart(string &currentUser) {
+    bool adaItem = false;
+    for (int i = 0; i < keranjangIndex; i++) {
+        if (keranjangUser[i].nama == currentUser) {
+            adaItem = true;
+            break;
+        }
+    }
+    
+    if (!adaItem) {
+        showError("Keranjang anda Kosong!");
+        return;
+    }
+    string pilihan;
+    while (true) {
+        clearScreen();
+        Header("KERANJANG BELANJA", 85);
+        cout << " " << setw(8) << left << "ID" << " | "
+            << setw(22) << left << "Nama Produk" << " | "
+            << setw(15) << "Harga" << " | "
+            << setw(11) << left << "Jumlah Beli" << " | "
+            << setw(15) << left << "Sub Total" << endl;
+        printLine('-', 85);
+        int totalBelanja = 0;
+        for (int i = 0; i < keranjangIndex; i++) {
+            if (keranjangUser[i].nama == currentUser) {
+                cout << " " << setw(8) << left << keranjangUser[i].idProduk << " | "
+                    << setw(22) << left << keranjangUser[i].namaProduk << " | "
+                    << "Rp" << setw(13) << right << keranjangUser[i].harga << " | "
+                    << setw(11) << left <<  keranjangUser[i].jumlah << " | "
+                    << "Rp" << setw(13) << right << keranjangUser[i].jumlah * keranjangUser[i].harga << endl;
+                    totalBelanja += keranjangUser[i].jumlah * keranjangUser[i].harga;
+            }
+        }
+        printLine('-', 85);
+        cout << " Total Belanja : Rp " << totalBelanja << endl;
+        printLine('=', 85);
+        menuCart();
+        getline(cin, pilihan);
+        if (pilihan == "1") {
+            clearScreen();
+            checkout(currentUser);
+            break;
+        } else if (pilihan == "2") {
+            string idUpdate = getInput("Input ID produk yang mau di update", 50, 35);
+            bool ditemukan = false;
+            for (int i = 0; i < keranjangIndex; i++) {
+                if (keranjangUser[i].nama == currentUser && keranjangUser[i].idProduk == idUpdate) {
+                    ditemukan = true;
+                    int stok = 0;
+                    for (int j = 0; j < mabelIndex; j++) {
+                        if (mabel[j].idProduk == idUpdate) {
+                            stok = mabel[j].stock;
+                            break;
+                        }
+                    }
+                    int newJml = getIntNotZero("Jumlah Baru (Stok tersedia " + to_string(stok) + ")" , 35);
+                    if (newJml <= stok) {
+                        keranjangUser[i].jumlah = newJml;
+                        showSuccess("Jumlah berhasil diupdate!");
+                    } else {
+                        showError("Jumlah beli melebihi stok yang tersedia : " + to_string(stok));
+                    }
+                    break;
+                }
+            }
+            if (!ditemukan) {
+                showError("Produk dengan ID " + idUpdate + " tidak ditemukan di keranjang!");
+            }
+            pauseScreen();
+        } else if (pilihan == "3") {
+            string idDelete = getInput("Input ID produk yang mau di hapus", 50, 35);
+            bool ditemukan = false;
+            for (int i = 0; i < keranjangIndex; i++) {
+                if (keranjangUser[i].nama == currentUser && keranjangUser[i].idProduk == idDelete) {
+                    ditemukan = true;
+                    if (confirm("Hapus item ini dari keranjang [Y/N]", 35)) {
+                        for (int j = i; j < keranjangIndex - 1; j++) {
+                            keranjangUser[j] = keranjangUser[j + 1];
+                        }
+                        keranjangIndex--;
+                        showSuccess("Item berhasil dihapus dari keranjang!");
+                    }
+                    break;
+                }
+            }
+            if (!ditemukan) {
+                showError("Produk dengan ID " + idDelete + " tidak ditemukan di keranjang!");
+            }
+            pauseScreen();
+        } else if (pilihan == "0") {
+            break;
+        } else {
+            showError("Pilihan tidak valid!");
+            pauseScreen();
+        }
+    }
+}
+
+#endif

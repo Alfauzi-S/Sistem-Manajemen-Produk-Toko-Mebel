@@ -107,35 +107,27 @@ int main() {
                                 clearScreen();
                                 read();
                                 pauseScreen();
-                            }
-                            else if (pilihan == "2") {
+                            } else if (pilihan == "2") {
                                 clearScreen();
                                 create();
                                 pauseScreen();
-                            }
-                            else if (pilihan == "3") {
+                            } else if (pilihan == "3") {
                                 clearScreen();
                                 update();
                                 pauseScreen();
-                            }
-                            else if (pilihan == "4") {
+                            } else if (pilihan == "4") {
                                 clearScreen();
                                 del();
                                 pauseScreen();
-                            }
-                            else if (pilihan == "5") {
-                                Sort();
-                            }
-                            else if (pilihan == "6") {
-                                Search();
-                            }
-                            else if (pilihan == "7") {
+                            } else if (pilihan == "5") {
                                 menuMaterial();
-                            }
-                            else if (pilihan == "0") {
+                            } else if (pilihan == "6") {
+                                Sort();
+                            } else if (pilihan == "7") {
+                                Search();
+                            } else if (pilihan == "0") {
                                 break;
-                            }
-                            else {
+                            } else {
                                 showError("Pilihan tidak valid!");
                                 pauseScreen();
                             }
@@ -146,39 +138,32 @@ int main() {
                             menuUser();
                             getline(cin, pilihan);
                             
-                            // if (pilihan == "1") {
-                            //     clearScreen();
-                            //     readUserandUpdate(currentUser);
-                            //     pauseScreen();
-                            // }
-                            // else if (pilihan == "2") {
-                            //     clearScreen();
-                            //     buy(currentUser);
-                            //     pauseScreen();
-                            // }
-                            // else if (pilihan == "3") {
-                            //     clearScreen();
-                            //     cart(currentUser);
-                            //     pauseScreen();
-                            // }
-                            // else if (pilihan == "4") {
-                            //     Sort();
-                            // }
-                            // else if (pilihan == "5") {
-                            //     Search();
-                            // }
-                            // else if (pilihan == "6") {
-                            //     clearScreen();
-                            //     topup(currentUser);
-                            //     pauseScreen();
-                            // }
-                            // else if (pilihan == "0") {
-                            //     break;
-                            // }
-                            // else {
-                            //     showError("Pilihan tidak valid!");
-                            //     pauseScreen();
-                            // }
+                            if (pilihan == "1") {
+                                clearScreen();
+                                readUser(currentUser);
+                                pauseScreen();
+                            } else if (pilihan == "2") {
+                                clearScreen();
+                                buy(currentUser);
+                                pauseScreen();
+                            } else if (pilihan == "3") {
+                                clearScreen();
+                                cart(currentUser);
+                                pauseScreen();
+                            } else if (pilihan == "4") {
+                                Sort();
+                            } else if (pilihan == "5") {
+                                Search();
+                            } else if (pilihan == "6") {
+                                clearScreen();
+                                topup(currentUser);
+                                pauseScreen();
+                            } else if (pilihan == "0") {
+                                break;
+                            } else {
+                                showError("Pilihan tidak valid!");
+                                pauseScreen();
+                            }
                         }
                     }
                 } else {
@@ -186,24 +171,20 @@ int main() {
                     cout << "Program akan keluar..." << endl;
                     return 0;
                 }
-            } 
-            else if (pilihan == "2") {
+            } else if (pilihan == "2") {
                 clearScreen();
                 regis();
                 pauseScreen();
-            } 
-            else if (pilihan == "0") {
+            } else if (pilihan == "0") {
                 printLine('-', 50);
                 cout << "Terima kasih telah menggunakan program ini!" << endl;
                 cout << "Keluar dari program..." << endl;
                 break;
-            } 
-            else {
+            } else {
                 showError("Pilihan tidak valid!");
                 pauseScreen();
             }
-        }
-        catch (const exception& e) {
+        } catch (const exception& e) {
             cout<< "[FATAL ERROR] " << e.what() << endl;
             pauseScreen();
         }

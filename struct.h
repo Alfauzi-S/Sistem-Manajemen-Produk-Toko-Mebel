@@ -39,7 +39,7 @@ struct produk {
 
 struct keranjang {
     string nama;
-    int idProduk;
+    string idProduk;
     string namaProduk;
     int harga;
     int jumlah;
