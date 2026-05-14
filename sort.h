@@ -6,7 +6,7 @@
 #include "crud.h"
 #include "menu.h"
 #include "validation.h"
-
+// Done
 void bubbleSort(produk arr[], int n) {
     for (int i = 0; i < n - 1; i++) {
         bool swapped = false;
@@ -21,7 +21,7 @@ void bubbleSort(produk arr[], int n) {
         if (!swapped) break;
     }
 }
-
+// Done
 void sortHargaAsc(produk arr[], int n) {
     for (int i = 0; i < n - 1; i++) {
         int minIdx = i;
@@ -37,7 +37,7 @@ void sortHargaAsc(produk arr[], int n) {
         }
     }
 }
-
+// Done
 void sortHargaDesc(produk arr[], int n) {
     for (int i = 0; i < n - 1; i++) {
         int maxIdx = i;
@@ -53,7 +53,7 @@ void sortHargaDesc(produk arr[], int n) {
         }
     }
 }
-
+// Done
 void Sort() {
     string pilihan;
     while (true) {
@@ -63,39 +63,39 @@ void Sort() {
         
         if (pilihan == "1") {
             if (mabelIndex == 0) {
-                cout << endl << "     [ERROR] Tidak ada produk untuk diurutkan!" << endl;
+                showError("Tidak ada produk untuk diurutkan!");
             } else {
+                clearScreen();
                 bubbleSort(mabel, mabelIndex);
                 read();
-                cout << endl << "     [SUKSES] Produk berhasil diurutkan berdasarkan ID (Ascending)" << endl;
+                showSuccess("Produk berhasil diurutkan berdasarkan ID");
             }
             pauseScreen();
         } 
         else if (pilihan == "2") {
             if (mabelIndex == 0) {
-                cout << endl << "     [ERROR] Tidak ada produk untuk diurutkan!" << endl;
+                showError("Tidak ada produk untuk diurutkan!");
             } else {
-                cout << endl;
-                printLine('-', 50);
-                cout << "     1. Termurah ke Termahal (Ascending)" << endl;
-                cout << "     2. Termahal ke Termurah (Descending)" << endl;
-                printLine('-', 50);
-                cout << "     Pilihan: ";
+                clearScreen();
+                menuSortHarga();
                 string sub;
                 getline(cin, sub);
                 
                 if (sub == "1") {
                     sortHargaAsc(mabel, mabelIndex);
-                    cout << endl << "     [SUKSES] Produk diurutkan dari harga termurah ke termahal" << endl;
+                    clearScreen();
+                    read();
+                    showSuccess("Produk diurutkan dari harga termurah ke termahal");
                 } else if (sub == "2") {
                     sortHargaDesc(mabel, mabelIndex);
-                    cout << endl << "     [SUKSES] Produk diurutkan dari harga termahal ke termurah" << endl;
+                    clearScreen();
+                    read();
+                    showSuccess("Produk diurutkan dari harga termahal ke termurah");
                 } else {
-                    cout << endl << "     [ERROR] Pilihan tidak valid!" << endl;
+                    showError("Pilihan tidak valid!");
                     pauseScreen();
                     continue;
                 }
-                read();
             }
             pauseScreen();
         } 
@@ -103,7 +103,7 @@ void Sort() {
             break;
         } 
         else {
-            cout << endl << "     [ERROR] Pilihan tidak valid!" << endl;
+            showError("Pilihan tidak valid!");
             pauseScreen();
         }
     }
