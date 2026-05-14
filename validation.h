@@ -299,7 +299,7 @@ string getInput(const string& prompt, int maxLen, int space) {
         }
     }
 }
-
+// Done
 int getInt(const string& prompt, int space) {
     string input;
     while (true) {
@@ -341,7 +341,7 @@ int getInt(const string& prompt, int space) {
         }
     }
 }
-
+// Done
 int getIntNotZero(const string& prompt, int space) {
     string input;
     while (true) {
@@ -370,11 +370,12 @@ int getIntNotZero(const string& prompt, int space) {
             }
             
             int angka = stoi(trimmed); // jika melebihi stoi bisa throw out_of_range
-            return angka;
-
+            
             if (angka <= 0) {
                 throw invalid_argument("Harus lebih besar dari 0!");
             }
+
+            return angka;
         }
         catch (const invalid_argument& e) {
             cout << setw(space) << left << " " << "[ERROR] " << e.what() << endl;

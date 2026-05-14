@@ -44,14 +44,14 @@ void menuAdmin() {
     cout << "2. Create Produk" << endl;
     cout << "3. Update Produk" << endl;
     cout << "4. Delete Produk" << endl;
-    cout << "5. Sort Produk" << endl;
-    cout << "6. Search Produk" << endl;
-    cout << "7. Kelola Material" << endl;
+    cout << "5. Kelola Material" << endl;
+    cout << "6. Sort Produk" << endl;
+    cout << "7. Search Produk" << endl;
     cout << "0. Logout" << endl;
     printLine('-', 50);
     cout << "Masukkan Pilihan: ";
 }
-
+// Done
 void menuUser() {
     Header("MENU USER", 50);
     cout << "1. Profil Saya" << endl;
@@ -96,14 +96,45 @@ void menuUpdateMat() {
     printLine('-', 50);
     cout << "Masukkan Pilihan: ";
 }
-
-void menuKeranjang() {
-    Header("MENU KERANJANG", 50);
+// Done
+void menuUpdateUser() {
+    cout << "1. Update Data User" << endl;
+    cout << "0. Kembali" << endl;
+    printLine('-', 55);
+    cout << "Masukan Pilihan: ";
+}
+// Done
+void menuUpdateDataUser() {
+    cout << "1. Ubah Nama" << endl;
+    cout << "2. Ubah Email" << endl;
+    cout << "3. Ubah Jalan" << endl;
+    cout << "4. Ubah Kota" << endl;
+    cout << "5. Ubah Provinsi" << endl;
+    cout << "0. Simpan & Keluar" << endl;
+    printLine('-', 55);
+    cout << "Masukan Pilihan: ";
+}
+// Done
+void menuTopup() {
+    cout << "1. Top Up" << endl;
+    cout << "0. Kembali" << endl;
+    printLine('-', 50);
+    cout << "Masukan Pilihan: ";
+}
+// Done
+void menuJumlah() {
+    cout << "1. Ubah Jumlah" << endl;
+    cout << "0. Tambah ke Keranjang" << endl;
+    printLine('-', 76);
+    cout << "Masukan Pilihan: ";
+}
+// Done
+void menuCart() {
     cout << "1. Checkout" << endl;
     cout << "2. Update Jumlah" << endl;
     cout << "3. Hapus Item" << endl;
     cout << "0. Kembali" << endl;
-    printLine('-', 50);
+    printLine('-', 85);
     cout << "Masukkan Pilihan: ";
 }
 
