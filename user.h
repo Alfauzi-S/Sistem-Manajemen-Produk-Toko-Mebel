@@ -343,7 +343,7 @@ void checkout(string &currentUser) {
         showInfo("Checkout dibatalkan");
     }
 }
-
+// Done
 void cart(string &currentUser) {
     bool adaItem = false;
     for (int i = 0; i < keranjangIndex; i++) {

@@ -137,10 +137,18 @@ void menuCart() {
     printLine('-', 85);
     cout << "Masukkan Pilihan: ";
 }
-
+// Done
+void menuBuy() {
+    Header("MENU BELI", 50);
+    cout << "1. Ubah Jumlah" << endl;
+    cout << "0. Tambah ke Keranjang" << endl;
+    printLine('-', 50);
+    cout << "Masukkan Pilihan: ";
+}
+// Done
 void menuSort() {
     Header("MENU SORT", 50);
-    cout << "1. Sort by ID (Ascending)" << endl;
+    cout << "1. Sort by ID" << endl;
     cout << "2. Sort by Harga" << endl;
     cout << "0. Kembali" << endl;
     printLine('-', 50);
@@ -155,13 +163,13 @@ void menuSearch() {
     printLine('-', 50);
     cout << "Masukkan Pilihan: ";
 }
-
-void menuBuy() {
-    Header("MENU BELI", 50);
-    cout << "1. Ubah Jumlah" << endl;
-    cout << "0. Tambah ke Keranjang" << endl;
+// Done
+void menuSortHarga() {
+    Header("Sort by Harga", 50);
+    cout << "1. Termurah ke Termahal (Ascending)" << endl;
+    cout << "2. Termahal ke Termurah (Descending)" << endl;
     printLine('-', 50);
-    cout << "Masukkan Pilihan: ";
+    cout << "Pilihan: ";
 }
 
 #endif
