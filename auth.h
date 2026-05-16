@@ -1,11 +1,17 @@
+// Done
 #ifndef AUTH_H
 #define AUTH_H
 
 #include "library.h"
 #include "struct.h"
 #include "validation.h"
-// Done
+
 bool login(bool *isAdmin, string *currentUser) {
+    if (!isAdmin || !currentUser) { // memastikan pointer tidak null
+        showError("Pointer tidak valid!");
+        return false;
+    }
+
     Header("LOGIN", 50);
 
     int kesempatan = 3;
@@ -17,7 +23,7 @@ bool login(bool *isAdmin, string *currentUser) {
         cout << setw(15) << left << "Password" << ": ";
         getline(cin, inPassword);
 
-        for (int i = 0; i < adminIndex; i++) {
+        for (int i = 0; i < adminIndex; i++) { // cek di data admin
             if (admin[i].nama == inNama && admin[i].password == inPassword) {
                 printLine('-', 50);
                 showInfo("LOGIN BERHASIL ADMIN - Selamat Datang " + inNama);
@@ -27,7 +33,7 @@ bool login(bool *isAdmin, string *currentUser) {
             }
         }
 
-        for (int i = 0; i < userIndex; i++) {
+        for (int i = 0; i < userIndex; i++) { // cek di data user
             if (user[i].nama == inNama && user[i].password == inPassword) {
                 printLine('-', 50);
                 showInfo("LOGIN BERHASIL USER - Selamat Datang " + inNama);
@@ -46,11 +52,11 @@ bool login(bool *isAdmin, string *currentUser) {
     showInfo("LOGIN GAGAL - Anda telah mencapai batas maksimal.");
     return false;
 }
-// Done
+
 void regis() {
     Header("REGISTER", 50);
 
-    if (userIndex >= maxuser) {
+    if (userIndex >= maxuser) { // Cek Kapasitas
         showError("Kapasitas pengguna penuh!");
         return;
     }

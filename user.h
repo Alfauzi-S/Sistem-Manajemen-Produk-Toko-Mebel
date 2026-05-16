@@ -1,3 +1,4 @@
+// Done
 #ifndef USER_H
 #define USER_H
 
@@ -7,14 +8,16 @@
 #include "menu.h"
 #include "crud.h"
 #include "material.h"
-// Done
+#include "transaction.h"
+
 void updateUser(int idx) {
-    if (userIndex == -1){
+    if (userIndex == 0) { // cek data user
         showError("Data User Kosong!");
         return;
     }
 
-    pengguna *updateUser = &user[idx];
+    // variabel temp
+    pengguna *updateUser = &user[idx]; // pointer ke user yang akan diupdate.
     string namaBaru = updateUser->nama;
     string emailBaru = updateUser->email;
     string jalanBaru = updateUser->alamat.jalan;
@@ -34,9 +37,9 @@ void updateUser(int idx) {
         getline(cin, pilihanUpdate);
         
         if (pilihanUpdate == "1") {
-            namaBaru = getName("Nama Baru", userIndex, 100, 15);
+            namaBaru = getName("Nama Baru", idx, 100, 15);
         } else if (pilihanUpdate == "2") {
-            emailBaru = getEmail("Email Baru", userIndex, 15);
+            emailBaru = getEmail("Email Baru", idx, 15);
         } else if (pilihanUpdate == "3") {
             jalanBaru = getInput("Jalan Baru", 100, 15);
         } else if (pilihanUpdate == "4") {
@@ -44,7 +47,7 @@ void updateUser(int idx) {
         } else if (pilihanUpdate == "5") {
             provinsiBaru =getInput("Provinsi Baru", 100, 15);
         } else if (pilihanUpdate == "0") {
-            if (confirm("Hapus produk ini [Y/N]", 22)) {
+            if (confirm("Simpan perubahan profil [Y/N]", 22)) {
                 updateUser->nama = namaBaru;
                 updateUser->email = emailBaru;
                 updateUser->alamat.jalan = jalanBaru;
@@ -63,13 +66,14 @@ void updateUser(int idx) {
         }
     }
 }
-// Done
+
 void readUser(string &currentUser) {
-    if (userIndex == -1){
+    if (userIndex == 0) { // cek data user
         showError("Data User Kosong!");
         return;
     }
     
+    // cari indeks user dengan nama yang cocok
     int indexKetemu = -1;
     for (int i = 0; i < userIndex; i++) {
         if (user[i].nama == currentUser) {
@@ -104,13 +108,14 @@ void readUser(string &currentUser) {
         }
     }
 }
-// Done
+
 void topup(string &currentUser) {
-    if (userIndex == -1){
+    if (userIndex == 0) { // cek data user
         showError("Data User Kosong!");
         return;
     }
     
+    // cari indeks user dengan nama yang cocok
     int indexKetemu = -1;
     for (int i = 0; i < userIndex; i++) {
         if (user[i].nama == currentUser) {
@@ -143,13 +148,14 @@ void topup(string &currentUser) {
                 printLine('-', 50);
                 int inNominal = getIntNotZero("Nominal Top Up", 15);
                 if (inNominal > 0) {
-                    topupUser->saldo = topupUser->saldo + inNominal;
+                    topupUser->saldo = topupUser->saldo + inNominal; // tambah saldo
                     printLine('-', 50);
                     showSuccess("Top up berhasil!");
                     showInfo("Saldo Baru: Rp" + to_string(topupUser->saldo));
                     pauseScreen();
                 }
             } else {
+                printLine('-', 50);
                 showError("Password salah!");
                 pauseScreen();
             }
@@ -162,9 +168,9 @@ void topup(string &currentUser) {
     }
     
 }
-// Done
+
 void buy(string &currentUser) {
-    if (mabelIndex == 0) {
+    if (mabelIndex == 0) { // cek data user
         showError("Data Produk Kosong!");
         return;
     };
@@ -172,8 +178,9 @@ void buy(string &currentUser) {
     read();
 
     string idCari = getInput("Input ID produk", 50, 20);
+    
+    // cari indeks produk dengan id yang cocok
     int indexKetemu = -1;
-
     for (int i = 0; i < mabelIndex; i++) {
         if (mabel[i].idProduk == idCari) {
             indexKetemu = i;
@@ -217,9 +224,9 @@ void buy(string &currentUser) {
             if (confirm("Tambahkan Produk ke Keranjang [Y/N]", 35)) {
                 bool sudahAda = false;
                 keranjang *addKeranjang = &keranjangUser[keranjangIndex];
-                for (int i = 0; i < keranjangIndex; i++) {
+                for (int i = 0; i < keranjangIndex; i++) { // cek apakah produk sudah ada di keranjang user
                     if (keranjangUser[i].nama == currentUser && keranjangUser[i].idProduk == mabel[indexKetemu].idProduk) {
-                        keranjangUser[i].jumlah = inJumlah;
+                        keranjangUser[i].jumlah = inJumlah; // // update jumlah
                         sudahAda = true;
                         printLine('-', 76);
                         showSuccess("Berhasil memperbarui produk di keranjang!");
@@ -227,7 +234,7 @@ void buy(string &currentUser) {
                     }
                 }
                 
-                if (!sudahAda) {
+                if (!sudahAda) { 
                     addKeranjang->nama = currentUser;
                     addKeranjang->idProduk = mabel[indexKetemu].idProduk;
                     addKeranjang->namaProduk = mabel[indexKetemu].namaProduk;
@@ -249,8 +256,9 @@ void buy(string &currentUser) {
         }
     }
 }
-// Done
+
 void checkout(string &currentUser) {
+    // cari indeks user dengan nama yang cocok
     int indexKetemu = -1;
     for (int i = 0; i < userIndex; i++) {
         if (user[i].nama == currentUser) {
@@ -264,12 +272,12 @@ void checkout(string &currentUser) {
         return;
     }
     
-    // Cek stok
+    // Cek stok untuk setiap item user
     for (int i = 0; i < keranjangIndex; i++) {
         if (keranjangUser[i].nama == currentUser) {
             for (int j = 0; j < mabelIndex; j++) {
-                if (mabel[j].idProduk == keranjangUser[i].idProduk) {
-                    if (mabel[j].stock < keranjangUser[i].jumlah) {
+                if (mabel[j].idProduk == keranjangUser[i].idProduk) { // cari produk di mabel
+                    if (mabel[j].stock < keranjangUser[i].jumlah) { // bandingkan stok
                         showError("Stok " + mabel[j].namaProduk + "tidak cukup, stock yang tersedia : " + to_string(mabel[j].stock));
                         return;
                     }
@@ -278,6 +286,7 @@ void checkout(string &currentUser) {
         }
     }
 
+    // Hitung totalBelanja
     int totalBelanja = 0;
     for (int i = 0; i < keranjangIndex; i++) {
         if (keranjangUser[i].nama == currentUser) {
@@ -308,7 +317,7 @@ void checkout(string &currentUser) {
                 return;
             }
             
-            // Kurangi stok
+            // kurangi stok produk
             for (int i = 0; i < keranjangIndex; i++) {
                 if (keranjangUser[i].nama == currentUser) {
                     for (int j = 0; j < mabelIndex; j++) {
@@ -320,8 +329,23 @@ void checkout(string &currentUser) {
                 }
             }
             
+            // kurangi saldo user
             checkoutUser->saldo -= totalBelanja;
-    
+            
+            // simpan transaksi
+            string detailTransaksi = "";
+            for (int i = 0; i < keranjangIndex; i++) {
+                if (keranjangUser[i].nama == currentUser) {
+                    int subtotal = keranjangUser[i].harga * keranjangUser[i].jumlah;
+                    detailTransaksi += keranjangUser[i].idProduk + "|"
+                                    + keranjangUser[i].namaProduk + "|"
+                                    + to_string(keranjangUser[i].jumlah) + "|"
+                                    + to_string(keranjangUser[i].harga) + "|"
+                                    + to_string(subtotal) + ";";
+                }
+            }
+            saveTransaction(currentUser, totalBelanja, detailTransaksi);
+
             // Hapus keranjang user
             int j = 0;
             for (int i = 0; i < keranjangIndex; i++) {
@@ -343,8 +367,9 @@ void checkout(string &currentUser) {
         showInfo("Checkout dibatalkan");
     }
 }
-// Done
+
 void cart(string &currentUser) {
+    // cek keranjang user dengan currentUser
     bool adaItem = false;
     for (int i = 0; i < keranjangIndex; i++) {
         if (keranjangUser[i].nama == currentUser) {
@@ -389,10 +414,12 @@ void cart(string &currentUser) {
             break;
         } else if (pilihan == "2") {
             string idUpdate = getInput("Input ID produk yang mau di update", 50, 35);
+            // cari item di keranjang user
             bool ditemukan = false;
             for (int i = 0; i < keranjangIndex; i++) {
                 if (keranjangUser[i].nama == currentUser && keranjangUser[i].idProduk == idUpdate) {
                     ditemukan = true;
+                    // cek stok produk dari mabel
                     int stok = 0;
                     for (int j = 0; j < mabelIndex; j++) {
                         if (mabel[j].idProduk == idUpdate) {
@@ -403,19 +430,23 @@ void cart(string &currentUser) {
                     int newJml = getIntNotZero("Jumlah Baru (Stok tersedia " + to_string(stok) + ")" , 35);
                     if (newJml <= stok) {
                         keranjangUser[i].jumlah = newJml;
+                        printLine('-', 85);
                         showSuccess("Jumlah berhasil diupdate!");
                     } else {
+                        printLine('-', 85);
                         showError("Jumlah beli melebihi stok yang tersedia : " + to_string(stok));
                     }
                     break;
                 }
             }
             if (!ditemukan) {
+                printLine('-', 85);
                 showError("Produk dengan ID " + idUpdate + " tidak ditemukan di keranjang!");
             }
             pauseScreen();
         } else if (pilihan == "3") {
             string idDelete = getInput("Input ID produk yang mau di hapus", 50, 35);
+            // cari item
             bool ditemukan = false;
             for (int i = 0; i < keranjangIndex; i++) {
                 if (keranjangUser[i].nama == currentUser && keranjangUser[i].idProduk == idDelete) {
@@ -425,12 +456,14 @@ void cart(string &currentUser) {
                             keranjangUser[j] = keranjangUser[j + 1];
                         }
                         keranjangIndex--;
+                        printLine('-', 85);
                         showSuccess("Item berhasil dihapus dari keranjang!");
                     }
                     break;
                 }
             }
             if (!ditemukan) {
+                printLine('-', 85);
                 showError("Produk dengan ID " + idDelete + " tidak ditemukan di keranjang!");
             }
             pauseScreen();

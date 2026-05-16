@@ -1,3 +1,4 @@
+// Done
 #ifndef STRUCT_H
 #define STRUCT_H
 
@@ -52,7 +53,7 @@ struct keranjang {
 #define maxkeranjang 100
 
 int adminIndex = 1;
-int userIndex = 1;
+int userIndex = 3;
 int mabelIndex = 5;
 int materialIndex = 4;
 int keranjangIndex = 0;

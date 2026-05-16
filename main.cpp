@@ -1,3 +1,4 @@
+// Done
 #include "library.h"
 #include "struct.h"
 #include "validation.h"
@@ -8,6 +9,7 @@
 #include "search.h"
 #include "user.h"
 #include "material.h"
+#include "transaction.h"
 
 int main() {
     mabel[0].idProduk = "PRD001";
@@ -72,12 +74,28 @@ int main() {
     materialDb[3].jenisMaterial = "Papan";
 
     user[0].nama = "user";
-    user[0].password = "123";
+    user[0].password = "12345678";
     user[0].email = "user@gmail.com";
-    user[0].saldo = 150000000;
+    user[0].saldo = 15000000;
     user[0].alamat.jalan = "JL. User";
     user[0].alamat.kota = "Kota User";
     user[0].alamat.provinsi = "Provinsi User";
+
+    user[1].nama = "budi";
+    user[1].password = "12345678";
+    user[1].email = "budi@gmail.com";
+    user[1].saldo = 8000000;
+    user[1].alamat.jalan = "JL. budi";
+    user[1].alamat.kota = "Kota budi";
+    user[1].alamat.provinsi = "Provinsi budi";
+
+    user[2].nama = "kevin";
+    user[2].password = "12345678";
+    user[2].email = "kevin@gmail.com";
+    user[2].saldo = 3000000;
+    user[2].alamat.jalan = "JL. kevin";
+    user[2].alamat.kota = "Kota kevin";
+    user[2].alamat.provinsi = "Provinsi kevin";
 
     admin[0].nama = "admin";
     admin[0].password = "123";
@@ -94,10 +112,10 @@ int main() {
             if (pilihan == "1") {
                 clearScreen();
                 bool isAdmin = false;
-                if (login(&isAdmin, &currentUser)) {
+                if (login(&isAdmin, &currentUser)) { // login
                     pauseScreen();
                     
-                    if (isAdmin) {
+                    if (isAdmin) { // menu admin
                         while (true) {
                             clearScreen();
                             menuAdmin();
@@ -125,6 +143,10 @@ int main() {
                                 Sort();
                             } else if (pilihan == "7") {
                                 Search();
+                            } else if (pilihan == "8") {
+                                clearScreen();
+                                viewAllTransactions();
+                                pauseScreen();
                             } else if (pilihan == "0") {
                                 break;
                             } else {
@@ -132,7 +154,7 @@ int main() {
                                 pauseScreen();
                             }
                         }
-                    } else {
+                    } else { // menu user
                         while (true) {
                             clearScreen();
                             menuUser();
@@ -158,6 +180,10 @@ int main() {
                                 clearScreen();
                                 topup(currentUser);
                                 pauseScreen();
+                            } else if (pilihan == "7") {
+                                clearScreen();
+                                viewUserTransactions(currentUser);
+                                pauseScreen();
                             } else if (pilihan == "0") {
                                 break;
                             } else {
@@ -169,7 +195,7 @@ int main() {
                 } else {
                     printLine('-', 50);
                     cout << "Program akan keluar..." << endl;
-                    return 0;
+                    return 0; // program berakhir
                 }
             } else if (pilihan == "2") {
                 clearScreen();
@@ -184,11 +210,11 @@ int main() {
                 showError("Pilihan tidak valid!");
                 pauseScreen();
             }
-        } catch (const exception& e) {
+        } catch (const exception& e) { //Menangkap semua exception yang mungkin terjadi (misal stoi gagal, akses array di luar batas, dll.)
             cout<< "[FATAL ERROR] " << e.what() << endl;
             pauseScreen();
         }
     }
     
-    return 0;
+    return 0; // program berakhir
 }

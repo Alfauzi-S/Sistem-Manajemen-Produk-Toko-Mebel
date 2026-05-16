@@ -1,3 +1,4 @@
+// Done
 #ifndef CRUD_H
 #define CRUD_H
 
@@ -6,9 +7,9 @@
 #include "validation.h"
 #include "menu.h"
 #include "material.h"
-// Done
+
 void read() {
-    if (mabelIndex == 0) {
+    if (mabelIndex == 0) { // cek data mabel
         showError("Data Produk Kosong!");
     } else {
         Header("DAFTAR PRODUK MEBEL", 127);
@@ -38,20 +39,21 @@ void read() {
         printLine('=', 127);
     }
 }
-// Done
+
 void create() {
     Header("CREATE PRODUK", 50);
 
-    if (mabelIndex >= maxproduk) {
+    if (mabelIndex >= maxproduk) { // cek kapasitas
         showError("Kapasitas memori penuh!");
         return;
     }
 
+    // Generate ID
     int maxId = 0;
-    for (int i = 0; i < mabelIndex; i++) {
+    for (int i = 0; i < mabelIndex; i++) { 
         string idStr = mabel[i].idProduk;
         if (idStr.length() >= 6 && idStr.substr(0, 3) == "PRD") {  // substr(0, 3) ambil "PRD"
-            string numStr = idStr.substr(3);  // ambil "000" setelah "PRD" 
+            string numStr = idStr.substr(3);  // ambil angka setelah "PRD"
             int num = stoi(numStr); // konversi ke integer
             if (num > maxId) maxId = num; // ketemu idBaru
         }
@@ -67,7 +69,7 @@ void create() {
         idBaru += to_string(nextId);
     }
     
-    produk *newMabel = &mabel[mabelIndex];
+    produk *newMabel = &mabel[mabelIndex]; // pointer ke elemen baru
 
     cout << setw(15) << left << "ID Produk" << ": " << idBaru << endl;
     newMabel->idProduk = idBaru;
@@ -76,7 +78,7 @@ void create() {
     newMabel->stock = getInt("Stok Produk", 15);
     newMabel->harga = getInt("Harga Produk", 15);
 
-    cout << "Pilih Material untuk produk ini" << endl;
+    showInfo("Pilih Material untuk produk ini");
     int materialIndexChoice = pilihMaterial();
     
     if (materialIndexChoice == -1) {
@@ -90,10 +92,10 @@ void create() {
     printLine('-', 50);
     showSuccess("Produk berhasil ditambahkan!");
 }
-// Done
+
 void update() {
     Header("UPDATE PRODUK", 127);
-    if (mabelIndex == 0) {
+    if (mabelIndex == 0) { // cek data mabel
         showError("Data Produk Kosong!");
         return;
     };
@@ -101,8 +103,9 @@ void update() {
     read();
 
     string idCari = getInput("Input ID produk", 50, 20);
+    
+    // cari indeks produk dengan ID yang cocok
     int indexKetemu = -1;
-
     for (int i = 0; i < mabelIndex; i++) {
         if (mabel[i].idProduk == idCari) {
             indexKetemu = i;
@@ -115,6 +118,7 @@ void update() {
         return;
     }
 
+    // variabel temp
     produk *updateMabel = &mabel[indexKetemu];
     string namaBaru = updateMabel->namaProduk;
     string jenisBaru = updateMabel->jenisProduk;
@@ -136,7 +140,7 @@ void update() {
         getline(cin, pilihan);
         
         if (pilihan == "1") {
-            namaBaru = getNamePrd("Nama Baru", mabelIndex, 100, 15);
+            namaBaru = getNamePrd("Nama Baru", indexKetemu, 100, 15);
         } else if (pilihan == "2") {
             jenisBaru = getInput("Jenis Baru", 100, 15);
         } else if (pilihan == "3") {
@@ -153,7 +157,7 @@ void update() {
                 showInfo("Perubahan material dibatalkan");
             }
         } else if (pilihan == "0") {
-            if (confirm("Hapus produk ini [Y/N]", 22)) {
+            if (confirm("Simpan perubahan produk [Y/N]", 22)) {
                 updateMabel->namaProduk = namaBaru;
                 updateMabel->jenisProduk = jenisBaru;
                 updateMabel->stock = stockBaru;
@@ -171,11 +175,11 @@ void update() {
         }
     }
 }
-// Done
+
 void del() {
     Header("DELETE PRODUK", 127);
     
-    if (mabelIndex == 0) {
+    if (mabelIndex == 0) { // cek data mabel
         showError("Data Produk Kosong!");
         return;
     };
@@ -183,8 +187,9 @@ void del() {
     read();
 
     string idCari = getInput("Input ID produk", 50, 20);
+    
+    // cari indeks produk dengan ID yang cocok
     int indexKetemu = -1;
-
     for (int i = 0; i < mabelIndex; i++) {
         if (mabel[i].idProduk == idCari) {
             indexKetemu = i;
@@ -208,7 +213,7 @@ void del() {
     printLine('=', 50);
     
     if (confirm("Hapus produk ini [Y/N]", 23)) {
-        for (int i = indexKetemu; i < mabelIndex - 1; i++) {
+        for (int i = indexKetemu; i < mabelIndex - 1; i++) { // array mabel digeser ke kiri mulai dari indexKetemu hingga mabelIndex-1
             mabel[i] = mabel[i + 1];
         }
         mabelIndex--;
