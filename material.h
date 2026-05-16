@@ -1,3 +1,4 @@
+// Done
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
@@ -6,9 +7,8 @@
 #include "validation.h"
 #include "menu.h"
 
-// Done
 void readMaterial() {
-    if (materialIndex == 0) {
+    if (materialIndex == 0) { // cek data Material
         showError("Data Material Kosong!");
     } else {
         Header("DAFTAR MATERIAL", 53);
@@ -24,7 +24,7 @@ void readMaterial() {
         }
         
         printLine('-', 53);
-        cout << " Total Produk: " << materialIndex << endl;
+        cout << " Total Material: " << materialIndex << endl;
         printLine('=', 53);
     }
 }
@@ -32,16 +32,17 @@ void readMaterial() {
 void createMaterial() {
     Header("TAMBAH MATERIAL", 50);
 
-    if (materialIndex >= maxmaterial) {
+    if (materialIndex >= maxmaterial) { // cek kapasitas
         showError("Kapasitas memori penuh!");
         return;
     }
 
+    // Generate ID
     int maxId = 0;
     for (int i = 0; i < materialIndex; i++) {
         string idStr = materialDb[i].idMaterial;
         if (idStr.length() >= 6 && idStr.substr(0, 3) == "MAT") {  // substr(0, 3) ambil "MAT"
-            string numStr = idStr.substr(3);  // ambil "000" setelah "MAT" 
+            string numStr = idStr.substr(3);  // ambil angka setelah "MAT"
             int num = stoi(numStr); // konversi ke integer
             if (num > maxId) maxId = num; // ketemu idBaru
         }
@@ -56,22 +57,22 @@ void createMaterial() {
     } else {
         idBaru += to_string(nextId);
     }
-    material *newMaterial = &materialDb[materialIndex];
+    material *newMaterial = &materialDb[materialIndex]; // pointer ke elemen baru
 
     cout << setw(20) << left << "ID Material" << ": " << idBaru << endl;
     newMaterial->idMaterial = idBaru;
-    newMaterial->namaMaterial = getNameMat("Nama Material Baru", mabelIndex, 100, 20);
+    newMaterial->namaMaterial = getNameMat("Nama Material Baru", materialIndex, 100, 20);
     newMaterial->jenisMaterial = getInput("Jenis Material Baru", 50, 20);
     materialIndex++;
     
     printLine('-', 50);
     showSuccess("Material berhasil ditambahkan!");
 }
-// Done
+
 void updateMaterial() {
     Header("UPDATE MATERIAL", 53);
     
-    if (materialIndex == 0) {
+    if (materialIndex == 0) {  // cek data mabel
         showError("Data Material Kosong!");
         return;
     }
@@ -79,8 +80,9 @@ void updateMaterial() {
     readMaterial();
 
     string idCari = getInput("Input ID material", 50, 20);
+    
+    // cari indeks produk dengan ID yang cocok
     int indexKetemu = -1;
-
     for (int i = 0; i < materialIndex; i++) {
         if (materialDb[i].idMaterial == idCari) {
             indexKetemu = i;
@@ -92,6 +94,8 @@ void updateMaterial() {
         showError("Material dengan ID " + idCari + " tidak ditemukan!");
         return;
     }
+
+    // variabel temp
     material *updateMaterial = &materialDb[indexKetemu];
     string namaBaru = updateMaterial->namaMaterial;
     string jenisBaru = updateMaterial->jenisMaterial;
@@ -99,7 +103,7 @@ void updateMaterial() {
     string pilihan;
     while (true) {
         clearScreen();
-        Header("DATA PRODUK SAAT INI", 50);
+        Header("DATA MATERIAL SAAT INI", 50);
         cout << setw(25) << left << "ID Material" << " : " << materialDb[indexKetemu].idMaterial << endl;
         cout << setw(25) << left << "Nama Material" << " : " << namaBaru << endl;
         cout << setw(25) << left << "Jenis Material" << " : "<< jenisBaru << endl;
@@ -107,19 +111,19 @@ void updateMaterial() {
         getline(cin, pilihan);
         
         if (pilihan == "1") {
-            namaBaru = getNameMat("Nama Material Baru", materialIndex, 100, 20);
+            namaBaru = getNameMat("Nama Material Baru", indexKetemu, 100, 20);
         } 
         else if (pilihan == "2") {
             jenisBaru = getInput("Jenis Baru", 100, 15);
         } 
         else if (pilihan == "0") {
-            if (confirm("Hapus produk ini [Y/N]", 22)) {
+            if (confirm("Simpan perubahan material [Y/N]", 22)) {
                 updateMaterial->namaMaterial = namaBaru;
                 updateMaterial->jenisMaterial = jenisBaru;
                 printLine('-', 50);
-                showSuccess("Produk berhasil diupdate!");
+                showSuccess("Material berhasil diupdate!");
             } else {
-                showInfo("Update produk dibatalkan");
+                showInfo("Update material dibatalkan");
             }
             return;
         } 
@@ -129,11 +133,11 @@ void updateMaterial() {
         }
     }
 }
-// Done
+
 void deleteMaterial() {
     Header("HAPUS MATERIAL", 53);
     
-    if (materialIndex == 0) {
+    if (materialIndex == 0) { // cek data mabel
         showError("Data Material Kosong!");
         return;
     }
@@ -142,6 +146,7 @@ void deleteMaterial() {
 
     string idCari = getInput("Input ID material", 50, 20);
     
+    // cari indeks produk dengan ID yang cocok
     int indexKetemu = -1;
     for (int i = 0; i < materialIndex; i++) {
         if (materialDb[i].idMaterial == idCari) {
@@ -182,7 +187,7 @@ void deleteMaterial() {
     
 
     if (confirm("Hapus Material ini [Y/N]", 26)) {
-        for (int i = indexKetemu; i < materialIndex - 1; i++) {
+        for (int i = indexKetemu; i < materialIndex - 1; i++) { // array material digeser ke kiri mulai dari indexKetemu hingga mabelIndex-1
             materialDb[i] = materialDb[i + 1];
         }
         materialIndex--;
@@ -192,7 +197,7 @@ void deleteMaterial() {
         showInfo("Penghapusan Material dibatalkan");
     }
 }
-// Done
+
 int pilihMaterial() {
     if (materialIndex == 0) {
         showError("Data Material Kosong!");
@@ -227,7 +232,7 @@ int pilihMaterial() {
         }
     }
 }
-// Done
+
 void menuMaterial() {
     string pilihan;
     while (true) {

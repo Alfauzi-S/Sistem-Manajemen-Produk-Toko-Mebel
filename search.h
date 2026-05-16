@@ -1,3 +1,4 @@
+// Done
 #ifndef SEARCH_H
 #define SEARCH_H
 
@@ -7,6 +8,8 @@
 #include "menu.h"
 #include "validation.h"
 
+// Binary search
+// Mencari indeks produk berdasarkan ID pada array yang sudah terurut ascending, Menggunakan pendekatan bagi dua ruang pencarian.
 int binarySearch(produk arr[], int n, const string& target) {
     int low = 0;
     int high = n - 1;
@@ -24,7 +27,8 @@ int binarySearch(produk arr[], int n, const string& target) {
     }
     return -1;
 }
-
+// Linear search
+// Membandingkan satu per satu dari awal hingga akhir.
 int linearSearch(produk arr[], int n, string target) {
     for (int i = 0; i < n; i++) {
         if (arr[i].namaProduk == target) {
@@ -45,14 +49,16 @@ void Search() {
             if (mabelIndex == 0) {
                 showError("Tidak ada produk untuk dicari!");
             } else {
-                bubbleSort(mabel, mabelIndex);
+                bubbleSort(mabel, mabelIndex); // sort ascending
                 string inputId = getInput("Input ID produk", 50, 16);
 
                 int index = binarySearch(mabel, mabelIndex, inputId);
 
                 if (index == -1) {
+                    printLine('-', 50);
                     showError("Produk dengan ID " + inputId + " tidak ditemukan!");
-                    return;
+                    pauseScreen();
+                    continue;
                 }
 
                 Header("HASIL PENCARIAN", 50);
@@ -77,8 +83,10 @@ void Search() {
                 int index = linearSearch(mabel, mabelIndex, inputNama);
                 
                 if (index == -1) {
-                    showError("Produk dengan ID " + inputNama + " tidak ditemukan!");
-                    return;
+                    printLine('-', 50);
+                    showError("Produk dengan nama '" + inputNama + "' tidak ditemukan!");
+                    pauseScreen();
+                    continue;
                 }
 
                 Header("HASIL PENCARIAN", 50);

@@ -1,3 +1,4 @@
+// Done
 #ifndef SORT_H
 #define SORT_H
 
@@ -6,12 +7,13 @@
 #include "crud.h"
 #include "menu.h"
 #include "validation.h"
-// Done
+// Bubble sort
+// membandingkan elemen bersebelahan, menukar jika urutan salah. Setiap iterasi, Asc.
 void bubbleSort(produk arr[], int n) {
     for (int i = 0; i < n - 1; i++) {
         bool swapped = false;
         for (int j = 0; j < n - i - 1; j++) {
-            if (arr[j].idProduk > arr[j + 1].idProduk) {
+            if (arr[j].idProduk > arr[j + 1].idProduk) { // membandingkan berdasarkan urutan karakter ASCII)
                 produk temp = arr[j];
                 arr[j] = arr[j + 1];
                 arr[j + 1] = temp;
@@ -21,7 +23,8 @@ void bubbleSort(produk arr[], int n) {
         if (!swapped) break;
     }
 }
-// Done
+// Selection sort
+// cari indeks elemen dengan harga terkecil di subarray [i..n-1], lalu tukar dengan elemen di posisi i, Asc.
 void sortHargaAsc(produk arr[], int n) {
     for (int i = 0; i < n - 1; i++) {
         int minIdx = i;
@@ -37,7 +40,7 @@ void sortHargaAsc(produk arr[], int n) {
         }
     }
 }
-// Done
+// cari indeks elemen dengan harga terkecil di subarray [i..n-1], lalu tukar dengan elemen di posisi i, Dsc.
 void sortHargaDesc(produk arr[], int n) {
     for (int i = 0; i < n - 1; i++) {
         int maxIdx = i;
@@ -53,7 +56,7 @@ void sortHargaDesc(produk arr[], int n) {
         }
     }
 }
-// Done
+
 void Sort() {
     string pilihan;
     while (true) {
