@@ -97,33 +97,6 @@ Aplikasi desktop untuk mengelola produk, stok, dan transaksi penjualan mebel den
 
 ---
 
-## 📂 Struktur Proyek
-
-```
-Sistem-Manajemen-Produk-Toko-Mebel/
-│
-├── main.cpp              # File utama program
-├── header/
-│   ├── user.h           # Struktur data user/admin
-│   ├── produk.h         # Struktur data produk
-│   ├── material.h       # Struktur data material
-│   └── transaksi.h      # Struktur data transaksi
-│
-├── source/
-│   ├── user.cpp         # Implementasi user
-│   ├── produk.cpp       # Implementasi produk
-│   ├── material.cpp     # Implementasi material
-│   └── transaksi.cpp    # Implementasi transaksi
-│
-├── data/
-│   ├── users.csv        # Penyimpanan data user
-│   ├── produk.csv       # Penyimpanan data produk
-│   ├── material.csv     # Penyimpanan data material
-│   └── history.csv      # Riwayat transaksi
-│
-└── README.md            # File dokumentasi ini
-```
-
 ---
 
 ## 💡 Fitur Unggulan
@@ -143,13 +116,3 @@ Sistem-Manajemen-Produk-Toko-Mebel/
 Project ini merupakan tugas akademik dan bebas digunakan untuk keperluan pendidikan.
 
 ---
-
-## 📧 Kontak & Support
-
-Jika ada pertanyaan atau saran, silakan hubungi:
-- **Muhammad Alfauzi Syahputra** – [GitHub](https://github.com/Alfauzi-S)
-
----
-
-**Last Updated:** 16 Mei 2026  
-**Status:** ✅ Aktif & Maintained
